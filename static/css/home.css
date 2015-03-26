@@ -1,0 +1,8 @@
+.bottom-nav {
+    max-width: 800px;
+    margin: 0 auto;
+    height: 50px;
+    overflow: hidden;
+    border-top: 1px solid #ddd;
+    background: rgba(252, 252, 252, 0.9)
+}
