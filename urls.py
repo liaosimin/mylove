@@ -1,4 +1,5 @@
 __author__ = 'lsm'
+import handlers.home
 handlers = [
-    (r"/customer/login", handlers.customer.Access, {"action":"login"}, "customerLogin")
+    (r"/", handlers.home.Home, {}, "customerLogin")
 ]

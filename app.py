@@ -2,7 +2,7 @@ __author__ = 'lsm'
 #! /usr/bin/env python3
 #import gc
 
-import dal.models as models
+#import dal.models as models
 import tornado.web
 import tornado.ioloop
 from tornado.options import options, define
