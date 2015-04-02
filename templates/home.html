@@ -1,31 +1,123 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>my</title>
-    <link rel="stylesheet" href="/static/css/home.css">
-    <link media="all" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.1/css-debug/frozen.css?_bid=306" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="ISUX">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <title>demo</title>
+    <link rel="stylesheet" type="text/css" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306">
+    <style>
+        .ui-tab-content {
+            display: -webkit-box;
+            width: 300%;
+        }
+
+        .ui-tab-content > li {
+            -webkit-box-flex: 1;
+            width: 100%;
+            height: 300px;
+        }
+    </style>
 </head>
 <body>
+<div class="wrapper">
+    <!-- list1 start -->
+    <div class="ui-tab">
+        <ul class="ui-tab-nav ui-border-b">
+            <li class="current">消息</li>
+            <li>发现</li>
+            <li>我</li>
+        </ul>
+        <ul class="ui-tab-content">
+            <li>
+                <ul class="ui-list ui-list-text ui-list-link ui-border-tb">
+                    <li class="ui-border-t">
+                        <div class="ui-list-thumb  ui-avatar-s">
+                            <span style="background-image:url(http://placehold.sinaapp.com//?100*100)"></span>
+                        </div>
+                        <div class="ui-list-info">
+                            <h4>聊天室</h4>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li class="ui-border-t">
+                        <div class="ui-list-thumb  ui-avatar-s">
+                            <span style="background-image:url(http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0)"></span>
+                        </div>
+                        <div class="ui-list-info">
+                            <h4>风清扬</h4>
 
-<!--<div class="bottom-nav navbar-fixed-bottom">-->
-    <!--<ul class="row">-->
-        <!--<li class="w25 pull-left">-->
-            <!--<a>-->
-                <!--<em>-->
-                    <!--liao-->
-                <!--</em>-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li class="w25 pull-left">-->
-            <!--<a>-->
-                <!--<em>-->
-                    <!--liao-->
-                <!--</em>-->
-            <!--</a>-->
-        <!--</li>-->
-    <!--</ul>-->
-<!--</div>-->
+                            <p>约吗</p>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="ui-list ui-list-link ui-border-b">
+                    <li>
+                        <div class="ui-list-thumb ui-avatar-s">
+                            <span style="background-image:url(http://b.zol-img.com.cn/mobile_soft/ms_1/180x180/so7VveLM2r2Bo.jpg)"></span>
+                        </div>
+                        <div class="ui-list-info ui-border-t">
+                            <h4>青春秀场</h4>
 
+                            <p>爆照吧少年</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ui-list-thumb ui-avatar-s">
+                            <span style="background-image:url(http://b.zol-img.com.cn/mobile_soft/ms_1/180x180/so7VveLM2r2Bo.jpg)"></span>
+                        </div>
+                        <div class="ui-list-info ui-border-t">
+                            <h4>心路</h4>
+
+                            <p>晒出你的情感经历吧</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ui-list-thumb ui-avatar-s">
+                            <span style="background-image:url(http://b.zol-img.com.cn/mobile_soft/ms_1/180x180/so7VveLM2r2Bo.jpg)"></span>
+                        </div>
+                        <div class="ui-list-info ui-border-t">
+                            <h4>问一问</h4>
+
+                            <p>大家尽情抛砖</p>
+                        </div>
+                    </li>
+                </ul>
+                <!--<div class="ui-loading-wrap">-->
+                    <!--<p>加载中</p>-->
+                    <!--<i class="ui-loading"></i>-->
+                <!--</div>-->
+            </li>
+
+            <li>内容三</li>
+        </ul>
+    </div>
+</div>
+<script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
+<script src="http://i.gtimg.cn/vipstyle/frozenjs/1.0.1/frozen.js?_bid=304"></script>
+<script>
+    (function () {
+
+        var tab = new fz.Scroll('.ui-tab', {
+            role: 'tab',
+            autoplay: false,
+            interval: 3000
+        });
+
+        tab.on('beforeScrollStart', function (from, to) {
+            console.log(from, to);
+        });
+
+        tab.on('scrollEnd', function (curPage) {
+            console.log(curPage);
+        });
+
+    })();
+</script>
 </body>
 </html>
