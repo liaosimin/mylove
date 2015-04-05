@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 <html>
-<head>
+<head lang="zh">
     <meta charset="utf-8">
     <meta name="author" content="ISUX">
     <meta name="format-detection" content="telephone=no"/>
     <meta name="viewport" content="width=device-width,user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <title>demo</title>
+    <title>forlove</title>
     <link rel="stylesheet" type="text/css" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306">
     <style>
         .ui-tab-content {
@@ -19,6 +19,21 @@
             -webkit-box-flex: 1;
             width: 100%;
             height: 300px;
+        }
+
+        .center-nav {
+            float: left;
+            width: 100%;
+        }
+
+        .center-nav li {
+            float: left;
+            width: 50%;
+            background: #ffffff;
+            text-align: center;
+        }
+        .box{
+            margin-top: 100px;
         }
     </style>
 </head>
@@ -40,6 +55,7 @@
                         </div>
                         <div class="ui-list-info">
                             <h4>聊天室</h4>
+
                             <p></p>
                         </div>
                     </li>
@@ -89,12 +105,38 @@
                     </li>
                 </ul>
                 <!--<div class="ui-loading-wrap">-->
-                    <!--<p>加载中</p>-->
-                    <!--<i class="ui-loading"></i>-->
+                <!--<p>加载中</p>-->
+                <!--<i class="ui-loading"></i>-->
                 <!--</div>-->
             </li>
 
-            <li>内容三</li>
+            <li>
+                <div>
+                    <ul class="ui-list ui-list-text ui-list-link ui-border-tb">
+                        <li class="ui-border-t">
+                            <div class="ui-list-thumb  ui-avatar-s">
+                                <span style="background-image:url(http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0)"></span>
+                            </div>
+                            <div class="ui-list-info">
+                                <h4>风清扬</h4>
+
+                                <p>约吗</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="center-nav">
+                        <li><a href="#">关注</a></li>
+                        <li><a href="#">粉丝</a></li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <ul class="ui-list ui-list-text ui-list-link ui-border-tb">
+                        <li class="ui-border-t">
+                            <p>我的相册</p>
+                        </li>
+                    </ul>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
