@@ -1,3 +1,4 @@
+.phone-box{width:100%;min-width:320px;max-width:640px;margin:0 auto;overflow:hidden;background:#F2F2F2;padding-bottom:50px;}
 .title-box2 {
     width: 100%;
     display: block;
@@ -162,3 +163,6 @@
 .pull-right{
     float: right;
 }
+
+.concel-btn{background:#999;float:left;color:#fff;}
+.sure-btn{background:#00D289;float:right;color:#fff;}
