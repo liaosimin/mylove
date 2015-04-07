@@ -3,8 +3,13 @@
 <head lang="zh">
     <meta charset="UTF-8">
     <title>设置</title>
-    <link rel="stylesheet" type="text/css" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306">
+    <!--<link rel="stylesheet" type="text/css" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306">-->
     <link rel="stylesheet" href="{{static_url('css/set-profile.css')}}"/>
+
+    <script>
+        window.dataObj = {
+                _xsrf: "{{handler.xsrf_token}}"}; //todo is secure important
+    </script>
 </head>
 <body>
 <div class="phone-box">
@@ -28,9 +33,8 @@
                         <span class="title pull-left">昵称</span>
                         <a href="javascript:;" class="nickname pull-right s1 editInfo" id="userNickname">{{test}}</a>
                     </div>
-                    <div class="info-edit" style="display: block;">
-                        <input type="text" class="edit-box" id="editNickname" value=""/>
-
+                    <div class="info-edit" style="display: none;">
+                        <input type="text" class="edit-box" id="nicknameEdit" value=""/>
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
                             <a href="javascript:;" class="sure-btn" data-action="edit_nickname">确定</a>
@@ -68,13 +72,6 @@
                 </li>
                 <li>
                     <div class="info-con">
-                        <span class="title pull-left">手机号</span>
-                        <a href="javascript:;" class="pull-right  tiephone" data-toggle="modal" data-target="#tieBox"
-                           id="phoneNumber">{{test}}</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="info-con">
                         <span class="title pull-left">个人邮箱</span>
                         <a href="javascript:;" class="pull-right s1 editInfo" id="userMail">{{test}}</a>
                     </div>
@@ -99,7 +96,6 @@
                             <option data-sex="2">女</option>
                             <option data-sex="0">其他</option>
                         </select>
-
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
                             <a href="javascript:;" class="sure-btn" data-action="edit_sex">确定</a>
@@ -139,5 +135,7 @@
             </ul>
         </form>
     </div>
+    <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
+    <script src="{{static_url('js/set-profile.js')}}}"></script>
 </body>
 </html>

@@ -1,4 +1,13 @@
-.phone-box{width:100%;min-width:320px;max-width:640px;margin:0 auto;overflow:hidden;background:#F2F2F2;padding-bottom:50px;}
+.phone-box {
+    width: 100%;
+    min-width: 320px;
+    /*max-width: 640px;*/
+    margin: 0 auto;
+    /*overflow: hidden;*/
+    /*background: #F2F2F2;*/
+    padding-bottom: 50px;
+}
+
 .title-box2 {
     width: 100%;
     display: block;
@@ -66,6 +75,7 @@
     padding: 1em 1.5em;
     border-top: 1px solid #ddd;
     background-color: #fff;
+    list-style: none;
 }
 
 .user-info-detail .w1 {
@@ -160,9 +170,23 @@
     border-radius: 1px;
     font-size: 1.6em;
 }
-.pull-right{
+
+.pull-right {
     float: right;
 }
 
-.concel-btn{background:#999;float:left;color:#fff;}
-.sure-btn{background:#00D289;float:right;color:#fff;}
+
+.btn-box{margin-top:1em;}
+.btn-box a{display:inline-block;width:45%;color:#fff !important;text-align:center;border-radius:1px;padding:0.3em 0;font-size:1em;}
+.btn-box button{display:inline-block;width:45%;color:#fff !important;text-align:center;border-radius:1px;padding:0.3em 0;font-size:1em;}
+.concel-btn {
+    background: #999;
+    float: left;
+    color: #fff;
+}
+
+.sure-btn {
+    background: #00D289;
+    float: right;
+    color: #fff;
+}
