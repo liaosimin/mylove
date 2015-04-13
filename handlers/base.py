@@ -1,6 +1,8 @@
 __author__ = 'lsm'
 from libs.webbase import BaseHandler
 from settings import *
+import dal.models as models
+import tornado
 
 class GlobalBaseHandler(BaseHandler):
     __account_model__ = models.User
@@ -38,3 +40,29 @@ class GlobalBaseHandler(BaseHandler):
 
     def clear_current_user(self):
         self.clear_cookie(self.__account_cookie_name__, domain=ROOT_HOST_NAME)
+
+    def get_login_url(self):
+        next_url = self.request.full_url()
+        return self.reverse_url("userLogin") + "?next="+tornado.escape.url_escape(next_url)
+
+
+
+class UserBaseHandler(GlobalBaseHandler):
+
+
+    def login_by_email_password(self, email, password):
+        try:
+            u = self.session.query(models.User).filter_by(email=email, password=password).one()
+        except:
+            u = None
+        return u
+
+
+    def register_with_email(self, email, password, sex):
+        user = models.User(email=email,
+                           password=password,
+                           sex=sex)
+
+        self.session.add(user)
+        self.session.commit()
+        return user

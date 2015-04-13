@@ -5,21 +5,32 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.dialects.mysql import TINYINT
 
 from dal.db_configs import MapBase, DBSession
-from dal.dis_dict import dis_dict
 import json
 import time
 import datetime
 
 
-class User(MapBase):
+class _CommonApi:
+
+    @classmethod
+    def get_by_id(cls, session, id):
+        s = session
+        try:
+            u = s.query(cls).filter_by(id=id).one()
+        except:
+            u = None
+        return u
+
+
+class User(MapBase, _CommonApi):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    create_date = Column(DateTime, nullable=False)
+    create_date = Column(DateTime, default=func.now())
 
     # 账户访问信息 (phone/email, password)/(wx_unionid)用来登录
     phone = Column(String(32), unique=True, default=None)
-    email = Column(String(64), default=None)
+    email = Column(String(64), unique=True, default=None)
     password = Column(String(128), default=None)
     wx_unionid = Column(String(64), unique=True)
 
@@ -41,3 +52,9 @@ class User(MapBase):
     wx_country = Column(String(32))
     wx_province = Column(String(32))
     wx_city = Column(String(32))
+
+
+def init_db_data():
+    MapBase.metadata.create_all()
+    print("init db success")
+    return True
