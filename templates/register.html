@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh">
+    <meta charset="utf-8">
+    <meta name="author" content="liaosimin">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <link rel="stylesheet" type="text/css" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306">
+    <title>login</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        .login {
+            position: absolute;
+            top: 40%;
+            left: 10%;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+<div class="login">
+    <div class="ui-form ui-border-t">
+        <form action="#">
+            <div class="ui-form-item ui-form-item-l ui-border-b">
+                <label class="ui-border-r">用户名</label>
+                <input type="text" id="username" placeholder="邮箱">
+                <a href="#" class="ui-icon-close"></a>
+            </div>
+        </form>
+    </div>
+    <div class="ui-form ui-border-t">
+        <form action="#">
+            <div class="ui-form-item ui-form-item-l ui-border-b">
+                <label class="ui-border-r">密码</label>
+                <input type="text" id="psw" placeholder="">
+                <a href="#" class="ui-icon-close"></a>
+            </div>
+        </form>
+    </div>
+    <label class="ui-radio" name="radio">
+        <input type="radio" name="sex" value="1">男
+        <input type="radio" checked name="sex" value="2">女
+        <input type="radio" checked name="sex" value="0">其他
+    </label>
+    <div class="ui-btn-wrap">
+    <button class="ui-btn-lg ui-btn-primary">提交</button>
+    </div>
+</div>
+<script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
+<script src="{{static_url('js/sha256.js')}}}"></script>
+<script src="{{static_url('js/register.js')}}}"></script>
+</body>
+</html>
