@@ -1,4 +1,4 @@
-ROOT_HOST_NAME = "192.168.130.132"
+ROOT_HOST_NAME = "192.168.130.137"
 # 森果开放平台 微信开放平台网站
 # KF_APPID = "wxcaaf6943cacada36"
 # KF_APPSECRET = "a60b4e98ad74ac23bdb9dd81db8423b1"

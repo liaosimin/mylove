@@ -42,8 +42,9 @@ class GlobalBaseHandler(BaseHandler):
         self.clear_cookie(self.__account_cookie_name__, domain=ROOT_HOST_NAME)
 
     def get_login_url(self):
-        next_url = self.request.full_url()
-        return self.reverse_url("userLogin") + "?next="+tornado.escape.url_escape(next_url)
+        # next_url = self.request.full_url()
+        # return self.reverse_url("userLogin") + "?next="+tornado.escape.url_escape(next_url)
+        return self.reverse_url("userLogin")
 
 
 

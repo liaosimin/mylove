@@ -1,17 +1,31 @@
 <html>
-<head><title>Web Socket Client</title></head>
+<head>
+    <meta charset="utf-8">
+    <title>Web Socket Client</title>
+</head>
 <body>
 <script type="text/javascript">
+    var timer_id;
     var socket;
     if (!window.WebSocket) {
         window.WebSocket = window.MozWebSocket;
     }
     // Javascript Websocket Client
     if (window.WebSocket) {
-        socket = new WebSocket("ws://10.197.60.125:8080/websocket");
+        socket = new WebSocket("ws://192.168.130.137:8887/websocket");
         socket.onmessage = function (event) {
-            var ta = document.getElementById('responseText');
-            ta.value = ta.value + '\n' + event.data
+            var receive_msg = JSON.parse(event.data);
+            if(receive_msg.type == 0){
+                var ta = document.getElementById('responseText');
+                ta.value = ta.value + '\n' + event.data;
+            }
+            else if(receive_msg.type == 1){
+                return;
+            }
+            else if(receive_msg.type == 2){
+                self.clearInterval(timer_id);
+            }
+
         };
         socket.onopen = function (event) {
             var ta = document.getElementById('responseText');
@@ -30,7 +44,22 @@
             return;
         }
         if (socket.readyState == WebSocket.OPEN) {
-            socket.send(message);
+            var msg = {'type':0, 'msg':message};
+            var json = JSON.stringify(msg);
+            socket.send(json);
+        } else {
+            alert("The socket is not open.");
+        }
+    }
+
+    function changePeople(){
+        if (!window.WebSocket) {
+            return;
+        }
+        if (socket.readyState == WebSocket.OPEN) {
+            var msg = {'type':1, 'msg':'change people'};
+            var json = JSON.stringify(msg);
+            socket.send(json);
         } else {
             alert("The socket is not open.");
         }
@@ -39,9 +68,10 @@
 <h3>Send :</h3>
 
 <form onsubmit="return false;">
-    <input type="text" name="message" value="Hello World!"/><input type="button" value="Send Web Socket Data"
-                                                                   onclick="send(this.form.message.value)"/>
-
+    <input type="text" name="message" value="Hello World!"/>
+    <input type="button" value="Send" onclick="send(this.form.message.value)"/>
+    <input type="button" value="Change" onclick="changePeople()"/>
+    <!--<input type="button" value="Change" onclick="timer_id=self.setInterval('changePeople()', 1000)"/>-->
     <h3>Receive :</h3>
     <textarea id="responseText" style="width:500px;height:300px;"></textarea>
 </form>
