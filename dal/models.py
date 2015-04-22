@@ -35,17 +35,18 @@ class User(MapBase, _CommonApi):
     wx_unionid = Column(String(64), unique=True)
 
     # 基本账户信息
+    headimgurl = Column(String(512))  # 头像url
+    nickname = Column(String(20))  # 昵称
+    realname = Column(String(10))  # 真实姓名
+    sex = Column(TINYINT, default=2)  # 性别，男1, 女2, 其他0
+    birthday = Column(Date)  # 生日
+    height = Column(SMALLINT)
+    weight = Column(SMALLINT)
 
-    # 性别，男1, 女2, 其他0
-    sex = Column(TINYINT, default=0)
-    # 昵称
-    nickname = Column(String(20))
-    # 真实姓名
-    realname = Column(String(10))
-    # 头像url
-    headimgurl = Column(String(512))
-    # 生日
-    birthday = Column(Date)
+    intro = Column(String(512))
+
+    university_id = Column(Integer, ForeignKey('university.id'))
+    grade = Column(SMALLINT)  # 年级,11：大一,12：大二,13：大三,14：大四,21研一,22研二,23，研三
     # 微信数据
     wx_openid = Column(String(64))
     wx_username = Column(String(64))
@@ -54,7 +55,54 @@ class User(MapBase, _CommonApi):
     wx_city = Column(String(32))
 
 
+class Province(MapBase):
+    __tablename__ = "_province"
+
+    code = Column(Integer, primary_key=True, nullable=False)
+    name = Column(String(10))
+
+
+class City(MapBase):
+    __tablename__ = "_city"
+
+    code = Column(Integer, primary_key=True, nullable=False)
+    name = Column(String(20))
+
+
+class University(MapBase):
+    __tablename__ = "university"
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    name = Column(String(50))
+    city_code = Column(Integer,  ForeignKey(City.code))
+
 def init_db_data():
     MapBase.metadata.create_all()
+
+    s = DBSession()
+    if s.query(Province).count() == 0:
+        from utils.dis_dict import dis_dict
+        for (prov_code, prov) in dis_dict.items():
+            s.add(Province(code=prov_code, name=prov["name"]))
+            if 'city' in prov.keys():
+                for (city_code, city) in prov["city"].items():
+                    s.add(City(code=city_code, name=city["name"]))
+
+            else:
+                s.add(City(code=prov_code, name=prov["name"]))
+        s.commit()
+
+    if s.query(University).count() == 0:
+        from utils.university import universities
+        for university in universities:
+            cities = s.query(City).filter_by(name=university[1]).all()
+            if len(cities) == 1:
+                s.add(University(name=university[0], city_code=cities[0].code))
+            elif not cities:
+                print("not found:", university)
+            else:  # to many
+                print("city duplicate", university)
+        s.commit()
+
     print("init db success")
     return True

@@ -5,6 +5,7 @@
     <title>设置</title>
     <!--<link rel="stylesheet" type="text/css" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306">-->
     <link rel="stylesheet" href="{{static_url('css/set-profile.css')}}"/>
+    <link media="all" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306" rel="stylesheet">
 
     <script>
         window.dataObj = {
@@ -31,10 +32,11 @@
                 <li>
                     <div class="info-con">
                         <span class="title pull-left">昵称</span>
-                        <a href="javascript:;" class="nickname pull-right s1 editInfo" id="userNickname">{{test}}</a>
+                        <a href="javascript:;" class="nickname pull-right s1 editInfo" id="userNickname">
+                            {{current_user.nickname or ''}}</a>
                     </div>
                     <div class="info-edit" style="display: none;">
-                        <input type="text" class="edit-box" id="nicknameEdit" value=""/>
+                        <input type="text" class="edit-box" id="nicknameEdit" value="{{current_user.nickname or ''}}"/>
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
                             <a href="javascript:;" class="sure-btn" data-action="edit_nickname">确定</a>
@@ -44,11 +46,12 @@
                 <li>
                     <div class="info-con">
                         <span class="title pull-left">真实姓名</span>
-                        <a href="javascript:;" class="nickname pull-right s1 editInfo" id="userNickname">{{test}}</a>
+                        <a href="javascript:;" class="nickname pull-right s1 editInfo" id="userNickname">
+                            {{current_user.realname or ''}}</a>
                     </div>
                     <div class="info-edit" style="display:none;">
-                        <input type="text" class="edit-box" id="realnameEdit" value="{{test}}" placeholder="请设置"/>
-
+                        <input type="text" class="edit-box" id="realname" value="{{current_user.realname or ''}}"
+                               placeholder="请设置"/>
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
                             <a href="javascript:;" class="sure-btn" data-action="edit_realname">确定</a>
@@ -58,12 +61,11 @@
                 <li>
                     <div class="info-con">
                         <span class="title pull-left">微信号</span>
-                        <a href="javascript:;" class="pull-right editInfo" id="userWechat">{{test}}</a>
+                        <a href="javascript:;" class="pull-right editInfo" id="userWechat">{{current_user.wx_username or ''}}</a>
                     </div>
                     <div class="info-edit" style="display:none;">
-                        <input type="text" class="edit-box" placeholder="微信号的提交有助于同行、供应商找到你" id="wechatEdit"
-                               value="{{test}}"/>
-
+                        <input type="text" class="edit-box" placeholder="微信号有助于找到你" id="wx_username"
+                               value="{{current_user.wx_username or ''}}"/>
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
                             <a href="javascript:;" class="sure-btn" data-action="edit_wx_username">确定</a>
@@ -73,44 +75,24 @@
                 <li>
                     <div class="info-con">
                         <span class="title pull-left">个人邮箱</span>
-                        <a href="javascript:;" class="pull-right s1 editInfo" id="userMail">{{test}}</a>
-                    </div>
-                    <div class="info-edit" style="display:none;">
-                        <input type="text" class="edit-box" id="mailEdit" value="{{test}}" placeholder="请设置"/>
-
-                        <div class="btn-box">
-                            <a href="javascript:;" class="concel-btn">取消</a>
-                            <a href="javascript:;" class="sure-btn" data-action="edit_email">确定</a>
-                        </div>
+                        <a href="javascript:;" class="pull-right s1 editInfo" id="userMail">{{current_user.email or ''}}</a>
                     </div>
                 </li>
                 <li class="w1">
                     <div class="info-con">
                         <span class="title pull-left">性别</span>
-                        <a href="javascript:;" class="pull-right s1 editInfo showSex" id="userSex" data-sex="{{test}}"
-                           style="color:#a8a8a8 !important;"></a>
-                    </div>
-                    <div class="info-edit" style="display:none;">
-                        <select id="sexEdit">
-                            <option data-sex="1">男</option>
-                            <option data-sex="2">女</option>
-                            <option data-sex="0">其他</option>
-                        </select>
-                        <div class="btn-box">
-                            <a href="javascript:;" class="concel-btn">取消</a>
-                            <a href="javascript:;" class="sure-btn" data-action="edit_sex">确定</a>
-                        </div>
+                        <a href="javascript:;" class="pull-right s1 showSex editInfo" id="userSex" data-sex="{{current_user.sex}}"
+                           style="color:#a8a8a8 !important;">{{'男' if current_user.sex == 1 else '女'}}</a>
                     </div>
                 </li>
                 <li>
                     <div class="info-con">
                         <span class="title pull-left">出生年月</span>
-                        <a href="javascript:;" class="pull-right editInfo" id="userBirthday">{{test}}</a>
+                        <a href="javascript:;" class="pull-right editInfo" id="userBirthday">{{current_user.birthday.strftime('%Y-%m')}}</a>
                     </div>
                     <div class="info-edit" style="display:none;">
-                        <input type="text" class="edit-box" placeholder="请输入您的出生年份 例如：2014" id="yearEdit" value=""/>
-                        <input type="text" class="edit-box" placeholder="请输入您的出生月份 例如：05" id="monthEdit" value=""/>
-
+                        <input type="text" class="edit-box" placeholder="请输入您的出生年份 例如：2014" id="year" value="{{current_user.birthday.year}}"/>
+                        <input type="text" class="edit-box" placeholder="请输入您的出生月份 例如：05" id="month" value="{{current_user.birthday.month}}"/>
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
                             <a href="javascript:;" class="sure-btn" data-action="edit_birthday">确定</a>
@@ -119,12 +101,41 @@
                 </li>
                 <li>
                     <div class="info-con">
-                        <span class="title pull-left">个人说明</span>
-                        <a href="javascript:;" class="pull-right editInfo" id="userIntro">{{test}}</a>
+                        <span class="title pull-left">身高(cm)</span>
+                        <a href="javascript:;" class="pull-right editInfo" id="user_height">{{current_user.height or ''}}</a>
                     </div>
                     <div class="info-edit" style="display:none;">
-                    <textarea type="text" class="edit-box" placeholder="输入一些个人说明，好多同行想认识你"
-                              id="introEdit">{{test}}</textarea>
+                    <textarea type="text" class="edit-box" placeholder="cm" id="height">{{current_user.height or ''}}</textarea>
+
+                        <div class="btn-box">
+                            <a href="javascript:;" class="concel-btn">取消</a>
+                            <a href="javascript:;" class="sure-btn" data-action="edit_height">确定</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="info-con">
+                        <span class="title pull-left">体重(kg)</span>
+                        <a href="javascript:;" class="pull-right editInfo" id="user_weight">{{current_user.weight or ''}}</a>
+                    </div>
+                    <div class="info-edit" style="display:none;">
+                    <textarea type="text" class="edit-box" placeholder="kg"
+                              id="weight">{{current_user.weight or ''}}</textarea>
+
+                        <div class="btn-box">
+                            <a href="javascript:;" class="concel-btn">取消</a>
+                            <a href="javascript:;" class="sure-btn" data-action="edit_weight">确定</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="info-con">
+                        <span class="title pull-left">个人说明</span>
+                        <a href="javascript:;" class="pull-right editInfo" id="intro">{{current_user.intro or ''}}</a>
+                    </div>
+                    <div class="info-edit" style="display:none;">
+                    <textarea type="text" class="edit-box" placeholder="输入一些个人说明，好多人想认识你"
+                              id="introEdit">{{current_user.intro or ''}}</textarea>
 
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
@@ -137,5 +148,6 @@
     </div>
     <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
     <script src="{{static_url('js/set-profile.js')}}}"></script>
+    <script src="http://i.gtimg.cn/vipstyle/frozenjs/1.0.1/frozen.js?_bid=304"></script>
 </body>
 </html>

@@ -32,7 +32,7 @@ class GlobalBaseHandler(BaseHandler):
         else:
             self._user = self.__account_model__.get_by_id(self.session, uid)
             if not self._user:
-                Logger.warn("Suspicious Access", "may be trying to fuck you")
+                print("Suspicious Access", "may be trying to fuck you")
         return self._user
 
     def set_current_user(self, user, domain):

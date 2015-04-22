@@ -17,7 +17,7 @@
             var receive_msg = JSON.parse(event.data);
             if(receive_msg.type == 0){
                 var ta = document.getElementById('responseText');
-                ta.value = ta.value + '\n' + event.data;
+                ta.value = ta.value + '\n' + receive_msg.nickname + ':' + receive_msg.msg;
             }
             else if(receive_msg.type == 1){
                 return;
