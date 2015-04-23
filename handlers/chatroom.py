@@ -26,7 +26,7 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
         state==0:idle, state==1:p2p, state==2:group
         msg_receive = {'type':0,'msg':'hello'}   type=0:chat, 1:change people,
         msg_send = {'type': 0, 'nickname': self.current_user.nickname, 'msg': msg_receive['msg']}
-            type=0:chat, 1:keep waiting, 2:stop waiting, 3:close, 4:link
+            type=0:chat, 1:keep waiting, 2:stop waiting, 3:close, 4:link, 10:error
         """
         msg_receive = json.loads(message)
         msg_send = {'type': 0, 'nickname': self.current_user.nickname, 'msg': msg_receive['msg']}
@@ -39,7 +39,7 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
                     Websocket.waiters[uid].write_message(json.dumps(msg_send))
                 return
             else:
-                msg_send['type'] = 0
+                msg_send['type'] = 10
                 msg_send['nickname'] = 'server'
                 msg_send['msg'] = '请选择一个陌生人或者加入房间'
 

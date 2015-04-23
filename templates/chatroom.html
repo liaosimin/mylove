@@ -14,77 +14,25 @@
     <a href="{{reverse_url('Home')}}" class="return-btn"></a>
     <span class="title">个人信息</span>
 </header>
-<h3>Send :</h3>
+<div class="chat_group">
 
-<form onsubmit="return false;">
-    <input type="text" name="message" value="Hello World!"/>
-    <input type="button" value="Send" onclick="send(this.form.message.value)"/>
+</div>
+
+<footer>
     <input type="button" value="Change" onclick="changePeople()"/>
-    <!--<input type="button" value="Change" onclick="timer_id=self.setInterval('changePeople()', 1000)"/>-->
-    <h3>Receive :</h3>
-    <textarea id="responseText" style="width:100%;height:300px;"></textarea>
-</form>
+    <!--<input type="text" name="message" value="Hello World!"/>-->
+    <textarea></textarea>
+    <input type="button" value="Send" onclick="send()"/>
+</footer>
+<!--<form onsubmit="return false;">-->
+    <!--<input type="text" name="message" value="Hello World!"/>-->
+    <!--<input type="button" value="Send" onclick="send(this.form.message.value)"/>-->
+    <!--<input type="button" value="Change" onclick="changePeople()"/>-->
 
-<script type="text/javascript">
-    var timer_id;
-    var socket;
-    if (!window.WebSocket) {
-        window.WebSocket = window.MozWebSocket;
-    }
-    // Javascript Websocket Client
-    if (window.WebSocket) {
-        socket = new WebSocket("ws://192.168.130.137:8887/websocket");
-        socket.onmessage = function (event) {
-            var receive_msg = JSON.parse(event.data);
-            if (receive_msg.type == 0) {
-                var ta = document.getElementById('responseText');
-                ta.value = ta.value + '\n' + receive_msg.nickname + ':' + receive_msg.msg;
-            }
-            else if (receive_msg.type == 1) {
-                return;
-            }
-            else if (receive_msg.type == 2) {
-                self.clearInterval(timer_id);
-            }
+    <!--<textarea id="responseText" style="width:100%;height:300px;"></textarea>-->
+<!--</form>-->
 
-        };
-        socket.onopen = function (event) {
-            var ta = document.getElementById('responseText');
-            ta.value = "Web Socket opened!";
-        };
-        socket.onclose = function (event) {
-            var ta = document.getElementById('responseText');
-            ta.value = ta.value + "Web Socket closed";
-        };
-    } else {
-        alert("Your browser does not support Web Socket.");
-    }
-    // Send Websocket data
-    function send(message) {
-        if (!window.WebSocket) {
-            return;
-        }
-        if (socket.readyState == WebSocket.OPEN) {
-            var msg = {'type': 0, 'msg': message};
-            var json = JSON.stringify(msg);
-            socket.send(json);
-        } else {
-            alert("The socket is not open.");
-        }
-    }
-
-    function changePeople() {
-        if (!window.WebSocket) {
-            return;
-        }
-        if (socket.readyState == WebSocket.OPEN) {
-            var msg = {'type': 1, 'msg': 'change people'};
-            var json = JSON.stringify(msg);
-            socket.send(json);
-        } else {
-            alert("The socket is not open.");
-        }
-    }
-</script>
+<script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
+<script src="{{static_url('js/chatroom.js')}}}"></script>
 </body>
 </html>  
