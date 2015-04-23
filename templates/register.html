@@ -42,13 +42,17 @@
             </div>
         </form>
     </div>
-    <div class="ui-btn-group-tiled ui-btn-wrap">
-        <button class="ui-btn-lg">注册</button>
-        <button class="ui-btn-lg ui-btn-primary">登录</button>
+    <label class="ui-radio" name="radio">
+        <input type="radio" name="sex" value="1">男
+        <input type="radio" checked name="sex" value="2">女
+        <input type="radio" checked name="sex" value="0">其他
+    </label>
+    <div class="ui-btn-wrap">
+    <button class="ui-btn-lg ui-btn-primary">提交</button>
     </div>
 </div>
 <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
 <script src="{{static_url('js/sha256.js')}}}"></script>
-<script src="{{static_url('js/login.js')}}}"></script>
+<script src="{{static_url('js/register.js')}}}"></script>
 </body>
 </html>

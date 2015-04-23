@@ -26,11 +26,14 @@
             width: 100%;
         }
 
-        .center-nav li {
+        .center-nav div{
             float: left;
-            width: 50%;
+            width: 49.5%;
+            padding: 2% 0;
             background: #ffffff;
             text-align: center;
+            border-right: solid 1px;
+            border-color: rgba(210, 180, 15, 0.08);
         }
 
         .box {
@@ -54,9 +57,8 @@
                         <div class="ui-list-thumb  ui-avatar-s">
                             <span style="background-image:url(http://placehold.sinaapp.com//?100*100)"></span>
                         </div>
-                        <div class="ui-list-info">
+                        <div class="ui-list-info" onclick="location.href='{{reverse_url("Chat")}}'">
                             <h4>聊天室</h4>
-
                             <p></p>
                         </div>
                     </li>
@@ -66,7 +68,6 @@
                         </div>
                         <div class="ui-list-info">
                             <h4>风清扬</h4>
-
                             <p>约吗</p>
                         </div>
                     </li>
@@ -114,23 +115,19 @@
             <li>
                 <div>
                     <ul class="ui-list ui-list-text ui-list-link ui-border-tb">
-
-                        <li class="ui-border-t">
+                        <li class="ui-border-t" onclick="location.href='{{reverse_url("SetProfile")}}'">
                             <div class="ui-list-thumb  ui-avatar-s">
                                 <span style="background-image:url(http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0)"></span>
                             </div>
                             <div class="ui-list-info">
-                                <a href="{{reverse_url('SetProfile')}}">
                                     <h4>风清扬</h4>
                                     <p>约吗</p>
-                                </a>
                             </div>
                         </li>
-
                     </ul>
                     <ul class="center-nav">
-                        <li><a href="#">关注</a></li>
-                        <li><a href="#">粉丝</a></li>
+                        <div>关注</div>
+                        <div>粉丝</div>
                     </ul>
                 </div>
                 <div class="box">
