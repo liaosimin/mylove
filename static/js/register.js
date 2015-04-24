@@ -11,7 +11,7 @@ Zepto(function ($) {
 
         $.post('/register', {email: username, password: psw, sex:sex}, function (res) {
             // process response
-            alert(res.success);
+            window.location='/';
         });
     });
 });

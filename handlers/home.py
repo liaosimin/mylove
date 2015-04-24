@@ -36,8 +36,9 @@ class Access(UserBaseHandler):
         if not u:
             return self.send_fail(error_text="用户名或密码错误")
         self.set_current_user(u, domain=ROOT_HOST_NAME)
-        url = self.args.get("next", self.reverse_url("Home"))
-        self.redirect(url)
+        # url = self.args.get("next", self.reverse_url("Home"))
+        # self.redirect(url)
+        return self.send_success()
 
     @UserBaseHandler.check_arguments("email:str", "password:str", "sex:int", "next?")
     def register(self):
@@ -85,6 +86,6 @@ class SetProfile(UserBaseHandler):
         return self.send_success()
 
 class Chat(UserBaseHandler):
-    @tornado.web.authenticated
+    #@tornado.web.authenticated
     def get(self):
         return self.render("chatroom.html")

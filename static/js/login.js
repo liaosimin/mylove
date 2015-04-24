@@ -6,6 +6,10 @@ Zepto(function ($) {
         var username = $('#username').val();
         var psw = $('#psw').val();
         psw = CryptoJS.SHA256(psw).toString(CryptoJS.enc.Hex);
-        $.post('/login', {email: username, password: psw}, null);
+        $.post('/login', {email: username, password: psw}, function(res){
+            if (res.success) {
+                window.location='/';
+            }
+        });
     });
 });
