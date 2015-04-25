@@ -29,7 +29,7 @@
                         <span class="title img-title pull-left">头像</span>
                         <a href="javascript:;"><img
                                 src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667694352.jpg"
-                                class="user-img"/></a>
+                                class="user-img" onclick="uplode_img()"/></a>
                     </div>
                 </li>
                 <li>
@@ -91,11 +91,11 @@
                 <li>
                     <div class="info-con">
                         <span class="title pull-left">出生年月</span>
-                        <a href="javascript:;" class="pull-right editInfo" id="userBirthday">{{current_user.birthday.strftime('%Y-%m')}}</a>
+                        <a href="javascript:;" class="pull-right editInfo" id="userBirthday">{{current_user.birthday.strftime('%Y-%m') if current_user.birthday else ''}}</a>
                     </div>
                     <div class="info-edit" style="display:none;">
-                        <input type="text" class="edit-box" placeholder="请输入您的出生年份 例如：2014" id="year" value="{{current_user.birthday.year}}"/>
-                        <input type="text" class="edit-box" placeholder="请输入您的出生月份 例如：05" id="month" value="{{current_user.birthday.month}}"/>
+                        <input type="text" class="edit-box" placeholder="请输入您的出生年份 例如：2014" id="year" value="{{current_user.birthday.year if current_user.birthday else ''}}"/>
+                        <input type="text" class="edit-box" placeholder="请输入您的出生月份 例如：05" id="month" value="{{current_user.birthday.month if current_user.birthday else ''}}"/>
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>
                             <a href="javascript:;" class="sure-btn" data-action="edit_birthday">确定</a>
@@ -149,8 +149,10 @@
             </ul>
         </form>
     </div>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>
     <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
     <script src="{{static_url('js/set-profile.js')}}}"></script>
+    <script src="{{static_url('js/wx.js')}}}"></script>
     <script src="http://i.gtimg.cn/vipstyle/frozenjs/1.0.1/frozen.js?_bid=304"></script>
 </body>
 </html>

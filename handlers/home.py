@@ -1,9 +1,12 @@
 __author__ = 'lsm'
 import tornado.web
-from handlers.base import UserBaseHandler
+from handlers.base import UserBaseHandler, WxOauth2
 from settings import *
 import dal.models as models
 import datetime
+from sqlalchemy import desc
+import hashlib
+import random
 
 
 # 登陆处理
@@ -89,3 +92,42 @@ class Chat(UserBaseHandler):
     #@tornado.web.authenticated
     def get(self):
         return self.render("chatroom.html")
+
+
+class Photo(UserBaseHandler):
+
+    @tornado.web.authenticated
+    @UserBaseHandler.check_arguments("page?:int")
+    def get(self):
+        if 'page' not in self.args.keys():
+            return self.render("photo.html")
+        page = self.args["page"]
+        page_size = 10
+        photos = self.session.query(models.Photo).order_by(desc(models.Photo.id)).\
+            offset(page*page_size).limit(page_size).all()
+        data_list = []
+        for photo in photos:
+            info_label = []
+            if not photo.author.height:
+                info_label.append(photo.author.height)
+            if not photo.author.weight:
+                info_label.append(photo.author.weight)
+            if not photo.author.university:
+                info_label.append(photo.author.university.name)
+            if not photo.author.grade_name:
+                info_label.append(photo.author.grade_name)
+            data_list.append({'avatar_url': photo.author.avatar_url, 'nickname': photo.author.nickname,
+                              'sex':photo.author.sex, 'time': self.timedelta(photo.create_datetime),
+                              'img_url': photo.img_url, 'info_label': info_label})
+        return self.write(dict(data=data))
+
+class Wx(UserBaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        jsapi_ticket = WxOauth2.get_jsapi_ticket()
+        noncestr = ''.join(random.sample('zyxwvutsrqponmlkjihgfedcba0123456789', 10))
+        timestamp = datetime.datetime.now().timestamp()
+        url = 'http://mt01.monklof.com:8887/photo'
+        sign_str = 'jsapi_ticket=%s&noncestr=%s&timestamp=%d&url=%s' % (jsapi_ticket, noncestr, timestamp, url)
+        signature = hashlib.sha1(sign_str.encode('utf-8')).hexdigest()
+        return self.send_success(timestamp=timestamp, noncestr=noncestr, signature=signature)

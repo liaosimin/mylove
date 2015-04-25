@@ -10,6 +10,8 @@ handlers = [
     (r"/setprofile", handlers.home.SetProfile, {}, "SetProfile"),
 
     (r"/chat", handlers.home.Chat, {}, "Chat"),
+    (r"/photo", handlers.home.Photo, {}, "Photo"),
+    (r"/wx", handlers.home.Wx, {}, "Wx"),
     (r"/websocket", handlers.chatroom.Websocket, {}, "websocket")
 
 ]

@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <title>photo</title>
     <link rel="stylesheet" href="{{static_url('css/photo.css')}}"/>
+    <link rel="stylesheet" href="{{static_url('css/iconfont.css')}}"/>
 </head>
 <body>
 <header class="title-box2">
@@ -17,9 +18,28 @@
 </header>
 <div class="wrapper">
     <div class="item">
-        <div ></div>
+        <div class="item_head">
+            <a href="#"><img src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667706084.jpg" alt="hello" class="avatar"/></a>
+            <span class="nickname">lilei</span>
+            <span><i class="iconfont woman">&#xe71a</i></span>
+            <span class="creat_time">11min</span>
+        </div>
+        <div class="photo">
+            <img src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667706084.jpg">
+        </div>
+        <div class="profile">
+            <span class="info_label">19 old</span>
+        </div>
+        <p class="intro">
+            hello dajia hao
+        </p>
     </div>
 </div>
-
+<div class="loading">
+    <button type="button" class="btn_loading" id="loading_two">加载更多</button>
+</div>
+<script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
+<script src="{{static_url('js/photo.js')}}}"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>
 </body>
 </html>
