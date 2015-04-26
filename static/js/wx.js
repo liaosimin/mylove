@@ -25,7 +25,7 @@ function uplode_img() {
                 isShowProgressTips: 1, // 默认为1，显示进度提示
                 success: function (res) {
                     var serverId = res.serverId; // 返回图片的服务器端ID
-                    console.log(serverId)
+                    $.ajax({url: '/wx',type: 'POST',data: {'serverid':serverId}});  //上传成功向后台发送serverId
                 }
             });
         }

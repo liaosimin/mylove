@@ -3,10 +3,11 @@ import tornado.web
 from handlers.base import UserBaseHandler, WxOauth2
 from settings import *
 import dal.models as models
-import datetime
+import datetime, time
 from sqlalchemy import desc
 import hashlib
 import random
+import urllib
 
 
 # 登陆处理
@@ -126,9 +127,18 @@ class Wx(UserBaseHandler):
     def get(self):
         jsapi_ticket = WxOauth2.get_jsapi_ticket()
         noncestr = ''.join(random.sample('zyxwvutsrqponmlkjihgfedcba0123456789', 10))
-        timestamp = int(datetime.datetime.now().timestamp())
+        timestamp = time.time()
         url = 'http://mt01.monklof.com/setprofile'
         sign_str = 'jsapi_ticket=%s&noncestr=%s&timestamp=%d&url=%s' % (jsapi_ticket, noncestr, timestamp, url)
         signature = hashlib.sha1(sign_str.encode('utf-8')).hexdigest()
         print(jsapi_ticket, noncestr, timestamp, url, sign_str, signature)
         return self.send_success(timestamp=timestamp, noncestr=noncestr, signature=signature)
+
+    @tornado.web.authenticated
+    @UserBaseHandler.check_arguments("serverid:str")
+    def post(self):
+        serverid = self.args["serverid"]
+        url = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s' %\
+              (WxOauth2.get_client_access_token(), serverid)
+        photo = urllib.request.urlopen(url).read()
+        print(url, photo)
