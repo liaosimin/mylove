@@ -71,3 +71,33 @@ function infoEdit(evt){
         });
     });
 }
+
+
+var input = document.querySelector('input');
+
+input.onchange = function () {
+    lrz(this.files[0], {width: 80}, function (results) {
+      // 你需要的数据都在这里，可以以字符串的形式传送base64给服务端转存为图片。
+        $.post('/setprofile', {'action':'edit_avatar', 'data':''}, function(res){
+            if (res.success) {
+                var formData = new FormData();
+                formData.append('token', res.token);
+                formData.append('file', results.base64);
+                formData.append('key', res.key);
+                $.ajax({type:'POST',
+                    contentType:false,
+                    cache:false,
+                    url: 'http://upload.qiniu.com/',
+                    processData: false,
+                    data: formData,
+                    success: function(){
+                    }
+                });
+            }
+            else{
+                $.tips({content: res.error_text, stayTime: 3000, type: "info"});
+            }
+        });
+      console.log(results);
+    });
+}

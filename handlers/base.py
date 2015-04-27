@@ -3,10 +3,11 @@ from libs.webbase import BaseHandler
 from settings import *
 import dal.models as models
 import tornado
-import datetime
+import datetime, time
 import json
 import requests
 import urllib
+import qiniu
 
 class GlobalBaseHandler(BaseHandler):
     __account_model__ = models.User
@@ -88,6 +89,14 @@ class UserBaseHandler(GlobalBaseHandler):
             return "%d分钟前" % (timedelta.seconds/60)
         else:
             return "%d秒前" % timedelta.seconds
+
+    def send_qiniu_token(self, bucket, id):
+        q = qiniu.Auth(ACCESS_KEY, SECRET_KEY)
+        token = q.upload_token(bucket, expires=120,
+                               policy={"callbackUrl": "http://mt01.monklof.com/qiniu",
+                                       "callbackBody": "key=$(key)&bucket=%s&id=%s" % (bucket, id),
+                                       "mimeLimit": "image/*"})
+        return self.send_success(token=token, key=str(time.time())+':'+str(id))
 
 
 
