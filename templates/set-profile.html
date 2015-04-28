@@ -2,11 +2,14 @@
 <html>
 <head lang="zh">
     <meta charset="UTF-8">
+    <meta name="author" content="liaosimin">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <title>设置</title>
-    <!--<link rel="stylesheet" type="text/css" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306">-->
     <link rel="stylesheet" href="{{static_url('css/set-profile.css')}}"/>
     <link media="all" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306" rel="stylesheet">
-    <!--<link rel="stylesheet" href="{{static_url('css/global.css')}}"/>-->
     <style>
         body{font-family:"Microsoft YaHei","arial black",sans-serif;color:#333;font-size:30px;background:#e7e8ec;}
     </style>
@@ -31,8 +34,9 @@
                             <img src="http://7xit5j.com1.z0.glb.clouddn.com/{{current_user.avatar_url or 'FpRSQnxdR5muuwEgeSLfpyQPGkK5'}}"
                                 class="user-img"/>
                             <form enctype="multipart/form-data" method="post" name="fileinfo">
-                                <input type="file" style="width: 100%;position: absolute;top: 67%;">
+                                <input type="file" class="input_file">
                             </form>
+                            <span class="fakefile">点击修改</span>
                         </div>
                     </div>
                 </li>
@@ -153,11 +157,9 @@
             </ul>
         </form>
     </div>
-    <!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>-->
     <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
     <script src="{{static_url('js/set-profile.js')}}"></script>
     <script src="{{static_url('js/lrz.mobile.min.js')}}"></script>
-    <!--<script src="{{static_url('js/wx.js')}}}"></script>-->
     <script src="http://i.gtimg.cn/vipstyle/frozenjs/1.0.1/frozen.js?_bid=304"></script>
 </body>
 </html>

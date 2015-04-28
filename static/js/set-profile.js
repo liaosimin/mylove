@@ -76,19 +76,21 @@ function infoEdit(evt){
 var input = document.querySelector('input');
 
 input.onchange = function () {
+    var el=$.loading({content:'压缩上传中...'});
     lrz(this.files[0], {width: 80}, function (results) {
       // 你需要的数据都在这里，可以以字符串的形式传送base64给服务端转存为图片。
         $.post('/setprofile', {'action':'edit_avatar', 'data':''}, function(res){
             if (res.success) {
-                var photo = results.base64.substring(23);
                 $.ajax({type:'POST',
                     contentType:"application/octet-stream",
                     cache:false,
                     url: 'http://up.qiniu.com/putb64/-1',
                     processData: false,
-                    data: photo,
+                    data: results.base64.split(',')[1],
                     headers: {"Authorization": "UpToken "+res.token},
                     success: function(){
+                        el.loading("hide");
+                        $.tips({content: '上传成功，新头像刷新可见', stayTime: 3000, type: "info"});
                     }
                 });
             }
