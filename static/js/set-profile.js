@@ -80,16 +80,14 @@ input.onchange = function () {
       // 你需要的数据都在这里，可以以字符串的形式传送base64给服务端转存为图片。
         $.post('/setprofile', {'action':'edit_avatar', 'data':''}, function(res){
             if (res.success) {
-                var formData = new FormData();
-                formData.append('token', res.token);
-                formData.append('file', results.base64);
-                formData.append('key', res.key);
+                var photo = results.base64.substring(23);
                 $.ajax({type:'POST',
-                    contentType:false,
+                    contentType:"application/octet-stream",
                     cache:false,
-                    url: 'http://upload.qiniu.com/',
+                    url: 'http://up.qiniu.com/putb64/-1',
                     processData: false,
-                    data: formData,
+                    data: photo,
+                    headers: {"Authorization": "UpToken "+res.token},
                     success: function(){
                     }
                 });

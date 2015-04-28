@@ -96,7 +96,7 @@ class UserBaseHandler(GlobalBaseHandler):
                                policy={"callbackUrl": "http://mt01.monklof.com/qiniu",
                                        "callbackBody": "key=$(key)&bucket=%s&id=%s" % (bucket, id),
                                        "mimeLimit": "image/*"})
-        return self.send_success(token=token, key=str(time.time())+':'+str(id))
+        return self.send_success(token=token)
 
 
 

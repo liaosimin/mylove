@@ -14,14 +14,15 @@ class QiniuCallback(UserBaseHandler):
         bucket = self.get_argument("bucket")
 
 
-        if bucket == "senguoimg":
+        if bucket == BUCKET_AVATAR:
             try:
                 user = self.session.query(models.User).filter_by(id=id).one()
             except:
                 return self.send_error(404)
             avatar_url = user.avatar_url
             user.avatar_url = key
-            if avatar_url:  # 先要把旧的的图片删除
+            self.session.commit()
+            if avatar_url:  # 把旧的的图片删除
                 m = BucketManager(auth=qiniu.Auth(ACCESS_KEY, SECRET_KEY))
                 m.delete(bucket=bucket, key=avatar_url)
             return self.send_success()
