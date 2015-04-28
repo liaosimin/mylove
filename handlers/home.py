@@ -127,7 +127,7 @@ class Wx(UserBaseHandler):
     def get(self):
         jsapi_ticket = WxOauth2.get_jsapi_ticket()
         noncestr = ''.join(random.sample('zyxwvutsrqponmlkjihgfedcba0123456789', 10))
-        timestamp = time.time()
+        timestamp = int(time.time())
         url = 'http://mt01.monklof.com/setprofile'
         sign_str = 'jsapi_ticket=%s&noncestr=%s&timestamp=%d&url=%s' % (jsapi_ticket, noncestr, timestamp, url)
         signature = hashlib.sha1(sign_str.encode('utf-8')).hexdigest()
