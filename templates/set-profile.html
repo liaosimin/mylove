@@ -27,9 +27,13 @@
                 <li>
                     <div class="info-con">
                         <span class="title img-title pull-left">头像</span>
-                        <a href="javascript:;"><img
-                                src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667694352.jpg"
-                                class="user-img" onclick="uplode_img()"/></a>
+                        <div style="width: 4.5em;height: 4.5em;float: right;position: relative">
+                            <img src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667694352.jpg"
+                                class="user-img" onclick="uplode_img()"/>
+                            <form enctype="multipart/form-data" method="post" name="fileinfo">
+                                <input type="file" style="width: 4.5em;position: absolute;top: 67%">
+                            </form>
+                        </div>
                     </div>
                 </li>
                 <li>
@@ -149,10 +153,11 @@
             </ul>
         </form>
     </div>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>
+    <!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>-->
     <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
     <script src="{{static_url('js/set-profile.js')}}}"></script>
-    <script src="{{static_url('js/wx.js')}}}"></script>
+    <script src="{{static_url('js/lrz.mobile.min.js')}}}"></script>
+    <!--<script src="{{static_url('js/wx.js')}}}"></script>-->
     <script src="http://i.gtimg.cn/vipstyle/frozenjs/1.0.1/frozen.js?_bid=304"></script>
 </body>
 </html>

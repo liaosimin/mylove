@@ -70,6 +70,8 @@ class SetProfile(UserBaseHandler):
         action = self.args["action"]
         data = self.args["data"]
 
+        if action == "edit_avatar":
+            return self.send_qiniu_token(BUCKET_AVATAR, self.current_user.id)
         if action == "edit_realname":
             self.session.query(models.User).filter_by(id=self.current_user.id).update({models.User.realname: data})
         elif action == "edit_wx_username":

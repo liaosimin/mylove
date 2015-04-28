@@ -9,7 +9,6 @@
 }
 
 .title-box2 {
-    width: 100%;
     height: 3em;
     display: block;
     background: #80e0a0;
@@ -53,10 +52,10 @@
 }
 
 .user-info-detail li {
-    width: 100%;
+    width: 94%;
     float: left;
     font-size: 1.5em;
-    padding: 1em 1.5em;
+    padding: 1em 3%;
     border-top: 1px solid #ddd;
     background-color: #fff;
     list-style: none;
