@@ -26,7 +26,13 @@ body{font-family:"Microsoft YaHei","arial black",sans-serif;color:#333;font-size
     height: 50px;
     line-height: 50px;
 }
-
+.jia{
+    margin-right: 20px;
+    float: right;
+    text-decoration:none;
+    color: #ffffff;
+    font-size: 2em !important;
+}
 .wrapper{
     position: relative;
     top: 4em;
@@ -64,11 +70,14 @@ div.photo img{
     height: auto;
 }
 .profile{
-
+    margin: 2px;
+    padding: 2px;
 }
 .info_label{
     border: 1px solid #6d6c6d;
     border-radius: 3px;
+    margin: 3px;
+    padding: 2px;
 }
 .loading{
     margin: 4em 0 0 0;

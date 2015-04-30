@@ -100,4 +100,4 @@ input.onchange = function () {
         });
       console.log(results);
     });
-}
+};

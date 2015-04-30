@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{static_url('css/set-profile.css')}}"/>
     <link media="all" href="http://i.gtimg.cn/vipstyle/frozenui/1.2.0/css/frozen.css?_bid=306" rel="stylesheet">
     <style>
-        body{font-family:"Microsoft YaHei","arial black",sans-serif;color:#333;font-size:30px;background:#e7e8ec;}
+        body{font-family:"Microsoft YaHei","arial black",sans-serif;color:#333;background:#e7e8ec;}
     </style>
     <script>
         window.dataObj = {
@@ -146,7 +146,7 @@
                     </div>
                     <div class="info-edit" style="display:none;">
                     <textarea type="text" class="edit-box" placeholder="输入一些个人说明，好多人想认识你"
-                              id="introEdit">{{current_user.intro or ''}}</textarea>
+                              id="intro">{{current_user.intro or ''}}</textarea>
 
                         <div class="btn-box">
                             <a href="javascript:;" class="concel-btn">取消</a>

@@ -93,10 +93,10 @@ class UserBaseHandler(GlobalBaseHandler):
     def send_qiniu_token(self, bucket, id):
         q = qiniu.Auth(ACCESS_KEY, SECRET_KEY)
         token = q.upload_token(bucket, expires=120,
-                               policy={"callbackUrl": "http://mt01.monklof.com/qiniu",
+                               policy={"callbackUrl": "http://http://mt01.monklof.com:8887/",
                                        "callbackBody": "key=$(key)&bucket=%s&id=%s" % (bucket, id),
                                        "mimeLimit": "image/*"})
-        return self.send_success(token=token)
+        return self.send_success(token=token, key=str(time.time())+':'+str(id))
 
 
 

@@ -8,7 +8,9 @@ from sqlalchemy import desc
 import hashlib
 import random
 import urllib
-
+from qiniu import put_data
+import qiniu
+from qiniu.utils import urlsafe_base64_decode
 
 # 登陆处理
 class Access(UserBaseHandler):
@@ -91,6 +93,28 @@ class SetProfile(UserBaseHandler):
         self.session.commit()
         return self.send_success()
 
+
+class PostPhoto(UserBaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        return self.render("post_photo.html")
+
+    @tornado.web.authenticated
+    @UserBaseHandler.check_arguments("intro:str", "data")
+    def post(self):
+        intro = self.args["intro"]
+        data = self.args["data"].split(',')
+
+        q = qiniu.Auth(ACCESS_KEY, SECRET_KEY)
+        token = q.upload_token(BUCKET_PHOTO)
+        key = str(time.time())+':'+str(self.current_user.id)
+        ret, info = put_data(token, key, urlsafe_base64_decode(data[1]), mime_type=data[0][5:-7], check_crc=True)
+        if info.status_code == 200:
+            self.session.add(models.Photo(img_url=key, intro=intro, author_id=self.current_user.id))
+            self.session.commit()
+
+
+
 class Chat(UserBaseHandler):
     #@tornado.web.authenticated
     def get(self):
@@ -111,18 +135,20 @@ class Photo(UserBaseHandler):
         data_list = []
         for photo in photos:
             info_label = []
-            if not photo.author.height:
-                info_label.append(photo.author.height)
-            if not photo.author.weight:
-                info_label.append(photo.author.weight)
-            if not photo.author.university:
+            if photo.author.birthday:
+                info_label.append(photo.author.birthday.strftime('%Y-%m'))
+            if photo.author.height:
+                info_label.append(str(photo.author.height)+'cm')
+            if photo.author.weight:
+                info_label.append(str(photo.author.weight)+'kg')
+            if photo.author.university:
                 info_label.append(photo.author.university.name)
-            if not photo.author.grade_name:
+            if photo.author.grade:
                 info_label.append(photo.author.grade_name)
             data_list.append({'avatar_url': photo.author.avatar_url, 'nickname': photo.author.nickname,
-                              'sex':photo.author.sex, 'time': self.timedelta(photo.create_datetime),
-                              'img_url': photo.img_url, 'info_label': info_label})
-        return self.write(dict(data=data))
+                              'sex': photo.author.sex, 'time': self.timedelta(photo.create_datetime),
+                              'img_url': photo.img_url, 'info_label': info_label, 'intro': photo.intro})
+        return self.send_success(data=data_list)
 
 class Wx(UserBaseHandler):
     @tornado.web.authenticated
