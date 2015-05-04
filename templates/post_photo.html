@@ -23,14 +23,14 @@
     <a href="{{reverse_url('Home')}}" class="return-btn"></a>
     <span class="title">发布图片</span>
 </header>
-<div style="height: 25em;margin: 5em 2% 2% 2%;padding: 4% 2%;background-color: #ffffff">
+<div style="min-height: 25em;margin: 5em 2% 2% 2%;padding: 4% 2%;background-color: #ffffff">
     <img src="" style="min-width: 100%;min-height: 80%">
     <div style="position: absolute;left: 30%;top: 35%;width: 25%;height: 7%">
         <form method="post"><input type="file" class="input_file"></form>
         <span class="iconfont photo_font">&#xe72c;</span>
     </div>
 </div>
-<textarea style="resize:none;margin: 2%;width: 96%;height: 6em;background-color: #ffffff;" rows:4 placeholder="请输入简评"></textarea>
+<textarea style="display:block;resize:none;margin: 2%;width: 96%;height: 6em;background-color: #ffffff;" rows:4 placeholder="请输入简评"></textarea>
 
 <div class="ui-btn-wrap">
     <button class="ui-btn-lg ui-btn-primary">发布</button>
@@ -44,18 +44,30 @@
     var input = document.querySelector('input');
     var base64;
     input.onchange = function () {
-        lrz(this.files[0], {width: 400}, function (results) {
+        var el=$.loading({content:'正在压缩...'});
+        lrz(this.files[0], {width: 200}, function (results) {
             // 你需要的数据都在这里，可以以字符串的形式传送base64给服务端转存为图片。
             $("img").attr("src", results.base64);
             base64 = results.base64;
-            console.log(results);
+//            console.log(results);
         });
+        el.loading("hide");
     };
 
     $('.ui-btn-primary').on('click', function () {
+        var el=$.loading({content:'正在上传...'});
         $.post('/post', {'intro': $('textarea').val(), 'data': base64}, function (res) {
+            el.loading("hide");
             if (res.success) {
-                $.tips({content: "上传成功", stayTime: 3000, type: "info"});
+                var dia=$.dialog({
+                    title:'上传成功',
+                    content:'点击确认返回',
+                    button:["确认"]
+                });
+
+                dia.on("dialog:action",function(e){
+                    if(e.index == 0)window.location='/photo';
+                });
             }
             else {
                 $.tips({content: res.error_text, stayTime: 3000, type: "info"});

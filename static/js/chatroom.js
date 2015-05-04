@@ -9,7 +9,7 @@ if (!window.WebSocket) {
 }
 // Javascript Websocket Client
 if (window.WebSocket) {
-    socket = new WebSocket("ws://mt01.monklof.com:8887/websocket");
+    socket = new WebSocket("ws://mt01.monklof.com/websocket");
     socket.onmessage = function (event) {
         var receive_msg = JSON.parse(event.data);
         switch(receive_msg.type){

@@ -112,6 +112,8 @@ class PostPhoto(UserBaseHandler):
         if info.status_code == 200:
             self.session.add(models.Photo(img_url=key, intro=intro, author_id=self.current_user.id))
             self.session.commit()
+            return self.send_success()
+        return self.send_error()
 
 
 
