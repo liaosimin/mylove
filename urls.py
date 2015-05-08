@@ -9,6 +9,7 @@ handlers = [
 
     (r"/", handlers.home.Home, {}, "Home"),
     (r"/setprofile", handlers.home.SetProfile, {}, "SetProfile"),
+    (r"/profile", handlers.home.Profile, {}, "Profile"),
 
     (r"/chat", handlers.home.Chat, {}, "Chat"),
     (r"/photo", handlers.home.Photo, {}, "Photo"),

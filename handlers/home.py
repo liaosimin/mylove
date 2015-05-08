@@ -152,6 +152,11 @@ class Photo(UserBaseHandler):
                               'img_url': photo.img_url, 'info_label': info_label, 'intro': photo.intro})
         return self.send_success(data=data_list)
 
+class Profile(UserBaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        return self.render("profile.html")
+
 class Wx(UserBaseHandler):
     @tornado.web.authenticated
     def get(self):
