@@ -9,13 +9,74 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <title>个人中心</title>
     <link rel="stylesheet" href="{{static_url('css/photo.css')}}"/>
+    <link rel="stylesheet" href="{{static_url('css/iconfont.css')}}"/>
     <style>
-        .head-box{
+        .head-box {
             width: 100%;
+            height: 15em;
+            padding-top: 5em;
+            text-align: center;
+            background: white;
+        }
+
+        .head-box img {
+            border-radius: 50%;
+            width: 30%;
+            border: 4px solid #00D681;
+            box-shadow: 0px 0px 3px #aaa;
+        }
+
+        .head-box p {
+            margin: 2px 0;
+        }
+
+        .woman {
+            color: #fdfffb !important;
+            font-size: 1em !important;
+            margin-left: 0.2rem;
+            background-color: rgb(253, 128, 150);
+        }
+
+        .center-nav {
+            float: left;
+            width: 100%;
+            padding-left: 0;
+        }
+
+        .center-nav div {
+            float: left;
+            width: 49.5%;
+            padding: 2% 0;
+            background: #ffffff;
+            text-align: center;
+            border-right: solid 1px;
+            border-color: rgba(231, 232, 236, 1);
+        }
+        .photo-box{
+            margin-top: 1em;
+            padding: 2px;
+            background-color: #ffffff;
+            width: 100%;
+            min-height: 2em;
+            overflow: hidden;
+        }
+        .photo-box img{
+            margin: 3px;
+            width: 50px;
             height: 50px;
         }
-        .head-box img{
-            border-radius: 50px;
+        .info{
+            margin-top: 1em;
+            padding: 0;
+        }
+        .info li{
+            padding: 1em;
+            background-color: #ffffff;
+            list-style: none;
+            border-bottom: 1px solid #ddd;
+        }
+        .info li span{
+            color: gray;
         }
     </style>
 </head>
@@ -26,6 +87,29 @@
 </header>
 <div class="head-box">
     <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+
+    <p>风轻扬<span><i class="iconfont woman">&#xe71a</i></span></p>
+    <ul class="center-nav">
+        <div>关注</div>
+        <div>粉丝</div>
+    </ul>
 </div>
+<div class="photo-box">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+</div>
+<ul class="info">
+    <li>
+        <span>身高</span>
+    </li>
+</ul>
 </body>
 </html>
