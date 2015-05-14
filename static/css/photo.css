@@ -56,10 +56,14 @@ height: 10%;
     font-size: 2em;
 }
 .woman{
-    color: #fdfffb !important;
-    font-size: 2em !important;
+    color: red;
+    font-size: 1.8em !important;
     margin-right: 0.2rem;
-    background-color: rgb(253, 128, 150);
+}
+.man{
+    color: lawngreen;
+    font-size: 1.8em !important;
+    margin-right: 0.2rem;
 }
 .creat_time{
     color: gray;

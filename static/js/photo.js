@@ -20,8 +20,8 @@ function append_items(data)
     for(var i=0;i<len;i++){
         var avatar_url = 'http://7xit5j.com1.z0.glb.clouddn.com/' + data[i].avatar_url;
         var img_url = 'http://7xitqn.com1.z0.glb.clouddn.com/' + data[i].img_url;
-        var sex = '&#xe71a';
-        if (data.sex == 1)sex='&#xe71a';
+        var sex = 'woman">&#xe612';
+        if (data.sex == 1)sex='man">&#xe611';
         var lable = '';
         for(var j=0;j<data[i].info_label.length;j++){
             lable += '<span class="info_label">'+ data[i].info_label[j] +'</span>';
@@ -30,7 +30,7 @@ function append_items(data)
             avatar_url +
             '" alt="hello" class="avatar"/></a><span class="nickname">' +
             data[i].nickname +
-            '</span><span><i class="iconfont woman">' +
+            '</span><span><i class="iconfont ' +
             sex +
             '</i></span><span class="creat_time">' +
             data[i].time +

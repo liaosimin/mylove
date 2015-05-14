@@ -27,6 +27,7 @@ class User(MapBase, _CommonApi):
 
     id = Column(Integer, primary_key=True, nullable=False)
     create_datetime = Column(DateTime, default=func.now())
+    code = Column(Integer, unique=True, nullable=False)
 
     # 账户访问信息 (phone/email, password)/(wx_unionid)用来登录
     phone = Column(String(32), unique=True, default=None)

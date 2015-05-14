@@ -26,16 +26,24 @@
             box-shadow: 0px 0px 3px #aaa;
         }
 
-        .head-box p {
+        .head-box p{
             margin: 2px 0;
         }
 
-        .woman {
-            color: #fdfffb !important;
-            font-size: 1em !important;
-            margin-left: 0.2rem;
-            background-color: rgb(253, 128, 150);
+        .nickname{
+            font-size: 1em;
         }
+        .univ{
+            color: gray;
+            font-size: 0.8em;
+        }
+
+        /*.woman {*/
+            /*color: #fdfffb !important;*/
+            /*font-size: 1em !important;*/
+            /*margin-left: 0.2rem;*/
+            /*background-color: rgb(253, 128, 150);*/
+        /*}*/
 
         .center-nav {
             float: left;
@@ -54,9 +62,9 @@
         }
         .photo-box{
             margin-top: 1em;
-            padding: 2px;
+            padding: 2%;
             background-color: #ffffff;
-            width: 100%;
+            width: 96%;
             min-height: 2em;
             overflow: hidden;
         }
@@ -67,6 +75,7 @@
         }
         .info{
             margin-top: 1em;
+            margin-bottom: 4em;
             padding: 0;
         }
         .info li{
@@ -77,6 +86,15 @@
         }
         .info li span{
             color: gray;
+            margin-right: 1em;
+        }
+        .follow{
+            position: fixed;
+            bottom: 0;
+            font-size: 2em;
+            height: 2.5em;
+            display: block;
+            width: 100%;
         }
     </style>
 </head>
@@ -86,30 +104,54 @@
     <span class="title">个人中心</span>
 </header>
 <div class="head-box">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
+    <img src="http://7xit5j.com1.z0.glb.clouddn.com/default" id="avatar">
 
-    <p>风轻扬<span><i class="iconfont woman">&#xe71a</i></span></p>
+    <p><span class="nickname">风轻扬</span><i class="iconfont man">&#xe611</i></p>
+    <p class="univ">华中科技大学 大三</p>
     <ul class="center-nav">
         <div>关注</div>
         <div>粉丝</div>
     </ul>
 </div>
 <div class="photo-box">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
-    <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0">
 </div>
 <ul class="info">
-    <li>
-        <span>身高</span>
-    </li>
 </ul>
+<button class="follow">加关注</button>
+
+<script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
+<script>
+    Zepto(function ($) {
+        $.get(location.pathname+'?page=1', function(res){
+        if(res.success){append_items(res);}
+        else{alert('error');}
+    })
+        $('.follow').on('click',function(){
+            $.post(location.pathname);
+        })
+});
+
+function append_items(data)
+{
+    $('#avatar').attr('src', data.avatar_url+'?imageView2/1/w/100/h/100');
+    $('.nickname').text(data.nickname);
+    $('.univ').text(data.univer_name+' '+data.grade_name);
+    if(data.sex==2){
+        $(".iconfont").remove();
+        $('.nickname').append('<i class="iconfont woman">&#xe612</i>');
+//        $(".iconfont").addClass("woman");
+//        $('.iconfont').text('&#xe612');
+    }
+
+    for(var i=0; i<data.photo_url.length; i++)
+    {
+        $('.photo-box').append('<img src="'+ data.photo_url[i]+'?imageView2/1/w/50/h/50'+'">');
+    }
+    $('.info').append('<li><span>身 高</span>'+data.height+' cm</li>');
+    $('.info').append('<li><span>体 重</span>'+data.weight+' kg</li>');
+    $('.info').append('<li><span>生 日</span>'+data.birthday+'</li>');
+    $('.info').append('<li><span>介 绍</span>'+data.intro+'</li>');
+}
+</script>
 </body>
 </html>

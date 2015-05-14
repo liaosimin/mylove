@@ -154,8 +154,30 @@ class Photo(UserBaseHandler):
 
 class Profile(UserBaseHandler):
     @tornado.web.authenticated
-    def get(self):
-        return self.render("profile.html")
+    @UserBaseHandler.check_arguments("page?:int")
+    def get(self, code):
+        if 'page' not in self.args.keys():
+            return self.render("profile.html")
+        else:
+            try:
+                user = self.session.query(models.User).filter_by(code=code).one()
+            except:
+                return self.send_error(404, "no user")
+
+            photo_url = []
+            photos = self.session.query(models.Photo).filter_by(id=user.id).all()
+            for photo in photos:
+                photo_url.append('http://7xitqn.com1.z0.glb.clouddn.com/'+photo.img_url)
+            return self.send_success(nickname=user.nickname,
+                                     sex=user.sex,
+                                     avatar_url='http://7xit5j.com1.z0.glb.clouddn.com/'+user.avatar_url,
+                                     photo_url=photo_url,
+                                     birthday=user.birthday.strftime('%Y-%m'),
+                                     height=user.height,
+                                     weight=user.weight,
+                                     intro=user.intro,
+                                     univer_name=user.university.name,
+                                     grade_name=user.grade_name)
 
 class Wx(UserBaseHandler):
     @tornado.web.authenticated
