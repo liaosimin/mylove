@@ -147,10 +147,25 @@ class Photo(UserBaseHandler):
                 info_label.append(photo.author.university.name)
             if photo.author.grade:
                 info_label.append(photo.author.grade_name)
-            data_list.append({'avatar_url': photo.author.avatar_url, 'nickname': photo.author.nickname,
+            praise_sum = self.session.query(models.UserPraisePhoto).filter_by(photo_id=photo.id).count()
+            data_list.append({'id': photo.id, 'uid': photo.author.id, 'praise_sum':praise_sum,
+                              'avatar_url': photo.author.avatar_url, 'nickname': photo.author.nickname,
                               'sex': photo.author.sex, 'time': self.timedelta(photo.create_datetime),
                               'img_url': photo.img_url, 'info_label': info_label, 'intro': photo.intro})
         return self.send_success(data=data_list)
+
+    @tornado.web.authenticated
+    @UserBaseHandler.check_arguments("action:str", "id")
+    def post(self):
+        action = self.args['action']
+        id = self.args['id']
+        if action == 'praise':
+            self.session.add(models.UserPraisePhoto(uid=self.current_user.id, photo_id=id))
+            self.session.commit()
+        elif action == 'love':
+            self.session.add(models.UserLoveUser(uid1=self.current_user.id, uid2=id))
+            self.session.commit()
+        return self.send_success()
 
 class Profile(UserBaseHandler):
     @tornado.web.authenticated
@@ -168,16 +183,41 @@ class Profile(UserBaseHandler):
             photos = self.session.query(models.Photo).filter_by(id=user.id).all()
             for photo in photos:
                 photo_url.append('http://7xitqn.com1.z0.glb.clouddn.com/'+photo.img_url)
+            if not user.birthday:
+                birthday = 0
+            else:
+                birthday = user.birthday.strftime('%Y-%m')
+            following_sum = self.session.query(models.Follow).filter_by(uid1=user.id).count()
+            follower_sum = self.session.query(models.Follow).filter_by(uid2=user.id).count()
+            follow = self.session.query(models.Follow).filter_by(uid1=self.current_user.id, uid2=user.id).first()
+            if follow:
+                followed = True
+            else:
+                followed = False
             return self.send_success(nickname=user.nickname,
                                      sex=user.sex,
                                      avatar_url='http://7xit5j.com1.z0.glb.clouddn.com/'+user.avatar_url,
                                      photo_url=photo_url,
-                                     birthday=user.birthday.strftime('%Y-%m'),
+                                     birthday=birthday,
                                      height=user.height,
                                      weight=user.weight,
                                      intro=user.intro,
                                      univer_name=user.university.name,
-                                     grade_name=user.grade_name)
+                                     grade_name=user.grade_name,
+                                     following_sum=following_sum,
+                                     follower_sum=follower_sum,
+                                     followed=followed)
+
+    @tornado.web.authenticated
+    def post(self, code):
+        try:
+            user = self.session.query(models.User).filter_by(code=code).one()
+        except:
+            return self.send_error(404, "no user")
+        self.session.add(models.Follow(uid1=self.current_user.id, uid2=user.id))
+        self.session.commit()
+        return self.send_success()
+
 
 class Wx(UserBaseHandler):
     @tornado.web.authenticated

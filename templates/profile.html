@@ -13,10 +13,11 @@
     <style>
         .head-box {
             width: 100%;
-            height: 15em;
+            height: 13em;
             padding-top: 5em;
             text-align: center;
             background: white;
+            font-size: 1.5em;
         }
 
         .head-box img {
@@ -44,7 +45,11 @@
             /*margin-left: 0.2rem;*/
             /*background-color: rgb(253, 128, 150);*/
         /*}*/
-
+        .man{
+            color: lawngreen;
+            font-size: 1em !important;
+            margin-right: 0.2rem;
+        }
         .center-nav {
             float: left;
             width: 100%;
@@ -92,7 +97,7 @@
             position: fixed;
             bottom: 0;
             font-size: 2em;
-            height: 2.5em;
+            height: 2em;
             display: block;
             width: 100%;
         }
@@ -106,11 +111,11 @@
 <div class="head-box">
     <img src="http://7xit5j.com1.z0.glb.clouddn.com/default" id="avatar">
 
-    <p><span class="nickname">风轻扬</span><i class="iconfont man">&#xe611</i></p>
+    <p><span class="nickname">风轻扬</span><i class="iconfont man">&#xe607</i></p>
     <p class="univ">华中科技大学 大三</p>
     <ul class="center-nav">
-        <div>关注</div>
-        <div>粉丝</div>
+        <div>关注<span class="following"></span></div>
+        <div>粉丝<span class="follower"></span></div>
     </ul>
 </div>
 <div class="photo-box">
@@ -127,7 +132,12 @@
         else{alert('error');}
     })
         $('.follow').on('click',function(){
-            $.post(location.pathname);
+            $.post(location.pathname,{},function(res){
+                if(res.success){
+                    $('.follow').attr('disabled',"true");
+                    $('.follow').text('已关注');
+                }
+            });
         })
 });
 
@@ -136,9 +146,11 @@ function append_items(data)
     $('#avatar').attr('src', data.avatar_url+'?imageView2/1/w/100/h/100');
     $('.nickname').text(data.nickname);
     $('.univ').text(data.univer_name+' '+data.grade_name);
+    $('.following').text(data.following_sum);
+    $('.follower').text(data.follower_sum);
     if(data.sex==2){
         $(".iconfont").remove();
-        $('.nickname').append('<i class="iconfont woman">&#xe612</i>');
+        $('.nickname').append('<i class="iconfont woman">&#xe60a</i>');
 //        $(".iconfont").addClass("woman");
 //        $('.iconfont').text('&#xe612');
     }
@@ -151,6 +163,11 @@ function append_items(data)
     $('.info').append('<li><span>体 重</span>'+data.weight+' kg</li>');
     $('.info').append('<li><span>生 日</span>'+data.birthday+'</li>');
     $('.info').append('<li><span>介 绍</span>'+data.intro+'</li>');
+
+    if(data.followed){
+        $('.follow').attr('disabled',"true");
+        $('.follow').text('已关注');
+    }
 }
 </script>
 </body>

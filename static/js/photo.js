@@ -4,7 +4,7 @@
 Zepto(function ($) {
   //var item = $('.wrapper').html();
   //  $('.wrapper').empty();
-get_data(0);
+    get_data(0);
 });
 function get_data(page){
     $.get('/photo?page='+page, function(res){
@@ -20,13 +20,15 @@ function append_items(data)
     for(var i=0;i<len;i++){
         var avatar_url = 'http://7xit5j.com1.z0.glb.clouddn.com/' + data[i].avatar_url;
         var img_url = 'http://7xitqn.com1.z0.glb.clouddn.com/' + data[i].img_url;
-        var sex = 'woman">&#xe612';
-        if (data.sex == 1)sex='man">&#xe611';
+        var sex = 'woman">&#xe60a';
+        if (data.sex == 1)sex='man">&#xe607';
         var lable = '';
         for(var j=0;j<data[i].info_label.length;j++){
             lable += '<span class="info_label">'+ data[i].info_label[j] +'</span>';
         }
-        var item = '<div class="item"><div class="item_head"><a href="#"><img src="' +
+        var item = '<div class="item" '+
+            'data-id='+data[i].id+' data-uid='+data[i].uid+
+                '><div class="item_head"><a href="#"><img src="' +
             avatar_url +
             '" alt="hello" class="avatar"/></a><span class="nickname">' +
             data[i].nickname +
@@ -40,9 +42,23 @@ function append_items(data)
             lable+
             '</div><p class="intro">' +
             data[i].intro +
-            '</p></div>';
+            '</p><span class="iconfont love" data-action="praise">&#xe60e;<span class="sum">'+data[i].praise_sum
+            +'</span></span></div>';
         $('.wrapper').append(item);
+        var select = '[data-id="'+data[i].id+'"]';
+        $(select).find('.love').on('click',function(){
+                var action = $(this).data('action');
+                var id = $(this).parent().data('id');
+                var t= $(this);
+                $.post('', {action: action, id:id}, function (res) {
+                if(res.success){
+                    t.addClass('color-red');
+                }
+            });
+            }
+        );
     }
+
     if(len<10)return false;
     else return true;
 }

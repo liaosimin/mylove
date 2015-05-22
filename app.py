@@ -34,7 +34,7 @@ def main():
         debug_str = "in debug mode"
     else:
         debug_str = "in production mode"
-    print("running senguo.cc {0} @ {1}...".format(debug_str, options.port))
+    print("running mylove {0} @ {1}...".format(debug_str, options.port))
 #    print("garbage collector: collected %d objecs"%gc.collect())
     tornado.ioloop.IOLoop.instance().start()
 
