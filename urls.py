@@ -13,6 +13,7 @@ handlers = [
 
     (r"/chat", handlers.home.Chat, {}, "Chat"),
     (r"/photo", handlers.home.Photo, {}, "Photo"),
+    (r"/community", handlers.home.Community, {}, "Community"),
     (r"/post", handlers.home.PostPhoto, {}, "PostPhoto"),
     (r"/wx", handlers.home.Wx, {}, "Wx"),
     (r"/qiniu", handlers.qiniu.QiniuCallback, {}, "Qiniu"),

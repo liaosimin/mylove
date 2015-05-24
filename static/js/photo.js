@@ -28,7 +28,7 @@ function append_items(data)
         }
         var item = '<div class="item" '+
             'data-id='+data[i].id+' data-uid='+data[i].uid+
-                '><div class="item_head"><a href="#"><img src="' +
+                '><div class="item_head"><a href="'+'/profile/'+data[i].code+'"><img src="' +
             avatar_url +
             '" alt="hello" class="avatar"/></a><span class="nickname">' +
             data[i].nickname +
@@ -51,9 +51,12 @@ function append_items(data)
                 var id = $(this).parent().data('id');
                 var t= $(this);
                 $.post('', {action: action, id:id}, function (res) {
-                if(res.success){
                     t.addClass('color-red');
-                }
+                    if(res.success){
+                        var sum = t.children('.sum').text();
+                        sum = Number(sum)+1;
+                        t.children('.sum').text(sum);
+                    }
             });
             }
         );

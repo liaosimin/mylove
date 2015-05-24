@@ -148,7 +148,8 @@ class Photo(UserBaseHandler):
             if photo.author.grade:
                 info_label.append(photo.author.grade_name)
             praise_sum = self.session.query(models.UserPraisePhoto).filter_by(photo_id=photo.id).count()
-            data_list.append({'id': photo.id, 'uid': photo.author.id, 'praise_sum':praise_sum,
+            data_list.append({'id': photo.id, 'uid': photo.author.id, 'code': photo.author.code,
+                              'praise_sum':praise_sum,
                               'avatar_url': photo.author.avatar_url, 'nickname': photo.author.nickname,
                               'sex': photo.author.sex, 'time': self.timedelta(photo.create_datetime),
                               'img_url': photo.img_url, 'info_label': info_label, 'intro': photo.intro})
@@ -160,12 +161,69 @@ class Photo(UserBaseHandler):
         action = self.args['action']
         id = self.args['id']
         if action == 'praise':
+            if self.session.query(models.UserPraisePhoto).filter_by(uid=self.current_user.id, photo_id=id).first():
+                return self.send_fail("重复点赞")
             self.session.add(models.UserPraisePhoto(uid=self.current_user.id, photo_id=id))
             self.session.commit()
         elif action == 'love':
             self.session.add(models.UserLoveUser(uid1=self.current_user.id, uid2=id))
             self.session.commit()
         return self.send_success()
+
+
+class Community(UserBaseHandler):
+    @tornado.web.authenticated
+    @UserBaseHandler.check_arguments("page?:int")
+    def get(self):
+        if 'page' not in self.args.keys():
+            return self.render("community.html")
+        page = self.args["page"]
+        page_size = 20
+        threads = self.session.query(models.Thread).order_by(desc(models.Thread.id)).\
+            offset(page*page_size).limit(page_size).all()
+        data_list = []
+        for thread in threads:
+            university_name = ''
+            grade_name = ''
+            if thread.author.university:
+                university_name = thread.author.university.name
+            if thread.author.grade:
+                grade_name = thread.author.grade_name
+            ug_name = university_name+' '+grade_name
+            praise_sum = self.session.query(models.UserPraiseThread).filter_by(thread_id=thread.id).count()
+            data_list.append({'id': thread.id, 'uid': thread.author.id, 'code': thread.author.code,
+                              'praise_sum': praise_sum,
+                              'avatar_url': thread.author.avatar_url, 'nickname': thread.author.nickname,
+                              'sex': thread.author.sex, 'time': self.timedelta(thread.create_datetime),
+                              'intro': thread.intro, 'ug_name':ug_name})
+        return self.send_success(data=data_list)
+
+    @tornado.web.authenticated
+    @UserBaseHandler.check_arguments("action:str")
+    def post(self):
+        action = self.args["action"]
+        if action == 'issue':
+            self.issue_thread()
+        elif action == 'praise':
+            self.praise()
+
+        return self.send_success()
+
+    @UserBaseHandler.check_arguments("data:str")
+    def issue_thread(self):
+        data = self.args["data"]
+        self.session.add(models.Thread(intro=data, author_id=self.current_user.id))
+        self.session.commit()
+
+    @UserBaseHandler.check_arguments("id:int")
+    def praise(self):
+        id = self.args["id"]
+        if self.session.query(models.UserPraiseThread).filter_by(uid=self.current_user.id, thread_id=id).first():
+            return self.send_fail("重复点赞")
+        self.session.add(models.UserPraiseThread(uid=self.current_user.id, thread_id=id))
+        self.session.commit()
+
+
 
 class Profile(UserBaseHandler):
     @tornado.web.authenticated

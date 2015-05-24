@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh">
+    <meta charset="UTF-8">
+    <meta name="author" content="liaosimin">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <title>情感社区</title>
+    <link rel="stylesheet" href="{{static_url('css/photo.css')}}"/>
+    <link rel="stylesheet" href="{{static_url('css/iconfont.css')}}"/>
+    <style>
+        .profile2 {
+            margin-left: 3.2em;
+        }
+
+        .avatar {
+            width: 11%;
+            float: left;
+        }
+
+        .nickname {
+            font-size: 1.2em;
+        }
+
+        .creat_time {
+            top: 1em;
+            right: 2em;
+        }
+
+        .text {
+            font-size: 1.5em;
+        }
+
+        .praise {
+            text-align: right;
+            font-size: 2em;
+            color: grey;
+        }
+
+        .m {
+            margin-left: 0.5em;
+        }
+
+        .title_box {
+            /*height: 4em;*/
+            background-color: #1cb7f0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .back {
+            color: white;
+            font-size: 2.5em;
+            line-height: 1.5em;
+        }
+
+        .add {
+            color: white;
+            font-size: 3em;
+            right: 1em;
+            float: right;
+            margin-right: 10px;
+            line-height: 1.3em;
+        }
+
+        #submit {
+            display: none;
+        }
+
+        textarea {
+            height: 5em;
+            font-size: 2em;
+            margin: 0.5em;
+            width: 91%;
+            resize: none;
+            display: none;
+        }
+
+        .wrapper {
+            top: 4em;
+        }
+    </style>
+</head>
+<body>
+<header class="title_box">
+    <span class="iconfont back">&#xe60c;</span>
+    <span class="iconfont add" id="add">&#xe608;</span>
+    <span class="iconfont add" id="submit">&#xe610;</span>
+</header>
+
+<div class="wrapper">
+    <textarea autofocus placeholder="请输入信息"></textarea>
+
+    <div class="item" data-id="1" data-uid="1">
+        <div class="item_head">
+            <a href="#"><img src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667706084.jpg" alt="hello"
+                             class="avatar"/></a>
+
+            <div class="profile2">
+                <div>华中科技大学<span class="creat_time">11min</span></div>
+                <div>
+                    <span class="nickname">lilei</span>
+                    <span><i class="iconfont woman">&#xe60a</i></span>
+                </div>
+            </div>
+        </div>
+        <b class="text">
+            hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦
+        </b>
+
+        <div class="praise">
+            <span class="iconfont m" data-action="praise" id="p">&#xe60e;<span class="sum">34</span></span>
+            <span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">34</span></span>
+        </div>
+    </div>
+</div>
+<div class="loading">
+    <button type="button" class="btn_loading" id="loading_two">加载更多</button>
+</div>
+<div>
+
+</div>
+<script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
+<script>
+    Zepto(function ($) {
+        get_data(0);
+        $('#add').on('click', function () {
+            $('textarea').toggle();
+            $(this).toggle();
+            $('#submit').toggle();
+        });
+        $('#submit').on('click', function () {
+            var data = $('textarea').val();
+            var t = $(this);
+            $.post('', {'action': 'issue', 'data': data}, function (res) {
+                if (res.success) {
+                    $('textarea').toggle();
+                    t.toggle();
+                    $('#add').toggle();
+                }
+            });
+        });
+    });
+
+    function get_data(page) {
+        $.get('/community?page=' + page, function (res) {
+            if (res.success) {
+                append_items(res.data);
+            }
+            else {
+                alert('error');
+            }
+        })
+    }
+
+    function append_items(data) {
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+            var avatar_url = 'http://7xit5j.com1.z0.glb.clouddn.com/' + data[i].avatar_url;
+            var sex = 'woman">&#xe60a';
+            if (data.sex == 1)sex = 'man">&#xe607';
+            var item = '<div class="item"  data-id=' + data[i].id + ' data-uid=' + data[i].uid +
+                    '><div class="item_head"><a href="' + '/profile/' + data[i].code +
+                    '"><img src="' + avatar_url + '" alt="hello" class="avatar"/></a><div class="profile2">' +
+                    '<div>' + data[i].ug_name + '<span class="creat_time">' + data[i].time +
+                    '</span></div><div><span class="nickname">' + data[i].nickname +
+                    '</span><span><i class="iconfont ' + sex +
+                    '</i></span></div></div></div><b class="text">' + data[i].intro + '</b><div class="praise">' +
+                    '<span class="iconfont m" data-action="praise" id="p">&#xe60e;<span class="sum">' + data[i].praise_sum +
+                    '</span></span><span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">34</span></span></div></div>';
+
+            $('.wrapper').append(item);
+
+            var select = '[data-id="' + data[i].id + '"]';
+            $(select).find('#p').on('click', function () {
+                        var action = $(this).data('action');
+                        var id = $(this).parent().parent().data('id');
+                        var t = $(this);
+                        $.post('', {action: action, id: id}, function (res) {
+                            t.addClass('color-red');
+                            if (res.success) {
+                                var sum = t.children('.sum').text();
+                                sum = Number(sum) + 1;
+                                t.children('.sum').text(sum);
+                            }
+                        });
+                    }
+            );
+        }
+    }
+</script>
+</body>
+
+</html>

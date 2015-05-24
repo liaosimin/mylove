@@ -113,10 +113,10 @@ class Photo(MapBase):
     __tablename__ = "photo"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
     img_url = Column(String(512))
     intro = Column(String(128))
     create_datetime = Column(DateTime, default=func.now())
-    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
 
     author = relationship("User", uselist=False)
 
@@ -137,6 +137,23 @@ class Follow(MapBase):
     __tablename__ = "follow"
     uid1 = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
     uid2 = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+
+
+class Thread(MapBase):
+    __tablename__ = "thread"
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    intro = Column(String(512))
+    create_datetime = Column(DateTime, default=func.now())
+
+    author = relationship("User", uselist=False)
+
+
+class UserPraiseThread(MapBase):
+    __tablename__ = "user_praise_thread"
+    uid = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+    thread_id = Column(Integer, ForeignKey(Thread.id), primary_key=True, nullable=False)
 
 
 def init_db_data():

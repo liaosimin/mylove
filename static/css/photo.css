@@ -3,7 +3,7 @@ body{font-family:"Microsoft YaHei","arial black",sans-serif;color:#333;font-size
     width: 100%;
     height: 3em;
     display: block;
-    background: #00D681;
+    background: #1cb7f0;
     text-indent: 5em;
     font-size: 1.8em;
     line-height: 3em;
@@ -88,8 +88,6 @@ div.photo img{
     font-size: 1.5em;
 }
 .love{
-    border: 1px solid #9d9c9d;
-    border-radius: 40%;
     margin: 3px;
     padding: 5px;
     font-size: 2em;
@@ -100,6 +98,7 @@ div.photo img{
 .sum{
     font-size: 10px;
     color: gray;
+    margin-left: 4px;
 }
 .loading{
     margin: 4em 0 0 0;
@@ -111,5 +110,5 @@ div.photo img{
     background-color: rgba(55, 55, 55, 0);
     border: none;
     color: #A4A6AB;
-    font-size: 2em;
+    font-size: 1.2em;
 }

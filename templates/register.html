@@ -16,9 +16,12 @@
 
         .login {
             position: absolute;
-            top: 40%;
-            left: 10%;
-            width: 70%;
+            top: 30%;
+            left: 5%;
+            width: 90%;
+        }
+        .ui-border-b input{
+            padding-left: 60px !important;
         }
     </style>
 </head>
@@ -28,7 +31,7 @@
         <form action="#">
             <div class="ui-form-item ui-form-item-l ui-border-b">
                 <label class="ui-border-r">用户名</label>
-                <input type="text" id="username" placeholder="邮箱">
+                <input type="email" id="username" placeholder="邮箱">
                 <a href="#" class="ui-icon-close"></a>
             </div>
         </form>
@@ -37,7 +40,7 @@
         <form action="#">
             <div class="ui-form-item ui-form-item-l ui-border-b">
                 <label class="ui-border-r">密码</label>
-                <input type="password" id="psw" placeholder="">
+                <input type="password" id="psw" placeholder="请输入密码">
                 <a href="#" class="ui-icon-close"></a>
             </div>
         </form>
@@ -46,6 +49,7 @@
         <input type="radio" name="sex" value="1">男
         <input type="radio" checked name="sex" value="2">女
     </label>
+    <input>
     <div class="ui-btn-wrap">
     <button class="ui-btn-lg ui-btn-primary">提交</button>
     </div>
