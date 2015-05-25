@@ -23,6 +23,26 @@
         .ui-border-b input{
             padding-left: 60px !important;
         }
+        .ui-border-r{
+            width: 55px !important;
+        }
+        .univ-list{
+            z-index: 99;
+            position: absolute;
+            left: 0px;
+            top: 136px;
+            display: block;
+            width: 100%;
+            background-color: white;
+        }
+        .list{
+            text-align: left;
+        }
+        .list li{
+            padding-left: 4em;
+            color: #1cb7f0;
+            font-size: 1.3em;
+        }
     </style>
 </head>
 <body>
@@ -34,22 +54,27 @@
                 <input type="email" id="username" placeholder="邮箱">
                 <a href="#" class="ui-icon-close"></a>
             </div>
-        </form>
-    </div>
-    <div class="ui-form ui-border-t">
-        <form action="#">
             <div class="ui-form-item ui-form-item-l ui-border-b">
                 <label class="ui-border-r">密码</label>
                 <input type="password" id="psw" placeholder="请输入密码">
                 <a href="#" class="ui-icon-close"></a>
             </div>
+            <div class="ui-form-item ui-form-item-l ui-border-b">
+                <label class="ui-border-r">学校</label>
+                <input type="text" id="univ" placeholder="请输入校名">
+                <a href="#" class="ui-icon-close"></a>
+            </div>
         </form>
     </div>
+    <div class="univ-list">
+        <ul class="list">
+        </ul>
+    </div>
     <label class="ui-radio" name="radio">
+        <label>性别：</label>
         <input type="radio" name="sex" value="1">男
         <input type="radio" checked name="sex" value="2">女
     </label>
-    <input>
     <div class="ui-btn-wrap">
     <button class="ui-btn-lg ui-btn-primary">提交</button>
     </div>

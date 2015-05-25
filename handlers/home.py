@@ -35,6 +35,9 @@ class Access(UserBaseHandler):
             self.login()
         elif self._action == "register":
             self.register()
+        elif self._action == "getuniv":
+            self.getuniv()
+
 
     @UserBaseHandler.check_arguments("email", "password", "next?")
     def login(self):
@@ -46,13 +49,26 @@ class Access(UserBaseHandler):
         # self.redirect(url)
         return self.send_success()
 
-    @UserBaseHandler.check_arguments("email:str", "password:str", "sex:int", "next?")
+    @UserBaseHandler.check_arguments("email:str", "password:str", "sex:int", "univ_id:int", "next?")
     def register(self):
         if self.args["sex"] not in [0, 1, 2]:
             return self.send_error(400)
-        if not self.register_with_email(self.args["email"], self.args["password"], self.args["sex"]):
+        if not self.args["email"] or not self.args["password"]:
+            return self.send_fail("邮箱或密码不能为空")
+        if not self.register_with_email(self.args["email"], self.args["password"],
+                                        self.args["sex"], self.args["univ_id"]):
             return self.send_fail("邮箱已经被注册")
         return self.send_success()
+
+    @UserBaseHandler.check_arguments("univ:str")
+    def getuniv(self):
+        univ = self.args["univ"]
+        if not univ:
+            return self.send_success(data=[])
+        univs = self.session.query(models.University).filter(models.University.name.like(univ+'%')).limit(10).all()
+        data_list = [{'id': x.id, 'name': x.name} for x in univs]
+        return self.send_success(data=data_list)
+
 
 
 class Home(UserBaseHandler):
@@ -131,7 +147,7 @@ class Photo(UserBaseHandler):
         if 'page' not in self.args.keys():
             return self.render("photo.html")
         page = self.args["page"]
-        page_size = 10
+        page_size = 5
         photos = self.session.query(models.Photo).order_by(desc(models.Photo.id)).\
             offset(page*page_size).limit(page_size).all()
         data_list = []

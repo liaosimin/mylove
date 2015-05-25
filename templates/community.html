@@ -86,7 +86,7 @@
 </head>
 <body>
 <header class="title_box">
-    <span class="iconfont back">&#xe60c;</span>
+    <a href="javascript:history.back(-1)"><span class="iconfont back">&#xe60c;</span></a>
     <span class="iconfont add" id="add">&#xe608;</span>
     <span class="iconfont add" id="submit">&#xe610;</span>
 </header>
@@ -126,22 +126,29 @@
 <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
 <script>
     Zepto(function ($) {
-        get_data(0);
+        var i = 0;
+        get_data(i);
+        i++;
         $('#add').on('click', function () {
             $('textarea').toggle();
             $(this).toggle();
             $('#submit').toggle();
         });
         $('#submit').on('click', function () {
+            $('textarea').toggle();
+            $(this).toggle();
+            $('#add').toggle();
+
             var data = $('textarea').val();
-            var t = $(this);
+            if(data.length<=0)return;
             $.post('', {'action': 'issue', 'data': data}, function (res) {
                 if (res.success) {
-                    $('textarea').toggle();
-                    t.toggle();
-                    $('#add').toggle();
+                    $('textarea').val('');
                 }
             });
+        });
+        $('.btn_loading').on('click', function () {
+            get_data(i);i++;
         });
     });
 
@@ -149,6 +156,10 @@
         $.get('/community?page=' + page, function (res) {
             if (res.success) {
                 append_items(res.data);
+                if(res.data.length<20){
+                    $('.btn_loading').text('没有更多了！');
+                    $('.btn_loading').attr('disabled', false);
+                }
             }
             else {
                 alert('error');

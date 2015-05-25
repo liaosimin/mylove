@@ -2,13 +2,22 @@
  * Created by lsm on 15-4-25.
  */
 Zepto(function ($) {
-  //var item = $('.wrapper').html();
-  //  $('.wrapper').empty();
-    get_data(0);
+    var i = 0;
+    get_data(i);i++;
+
+    $('.btn_loading').on('click', function () {
+        get_data(i);i++;
+    });
 });
 function get_data(page){
     $.get('/photo?page='+page, function(res){
-        if(res.success){append_items(res.data);}
+        if(res.success){
+            append_items(res.data);
+            if(res.data.length<5){
+                $('.btn_loading').text('没有更多了！');
+                $('.btn_loading').attr('disabled', false);
+            }
+        }
         else{alert('error');}
     })
 }
