@@ -44,11 +44,11 @@
         }
 
         .title_box {
-            /*height: 4em;*/
             background-color: #1cb7f0;
             position: fixed;
             top: 0;
             width: 100%;
+            z-index: 99;
         }
 
         .back {
@@ -70,7 +70,7 @@
             display: none;
         }
 
-        textarea {
+        .wrapper textarea {
             height: 5em;
             font-size: 2em;
             margin: 0.5em;
@@ -81,6 +81,48 @@
 
         .wrapper {
             top: 4em;
+        }
+        .reply{
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .reply li{
+            border-top: 1px solid #ddd;
+            line-height: 2em;
+        }
+        .reply li a{
+            text-decoration:none;
+            color: #1cb7f0;
+            margin-right: 2px;
+        }
+        .reply li span{
+            color: grey;
+            margin-right: 2px;
+        }
+        .reply_input{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+        }
+        .reply_input textarea{
+            width: 80%;
+            resize: none;
+            font-size: 1.5em;
+            margin: 7px 4px;
+            border-radius: 8px;
+            border: 1px solid #D8D8D8;
+            line-height: 1.5em;
+        }
+        .reply_input button{
+            width: 15%;
+            height: 100%;
+            position: absolute;
+            color: grey;
+            background-color: rgba(28, 183, 240, 0);
+            font-size: 1.5em;
+            border: 0;
         }
     </style>
 </head>
@@ -115,13 +157,19 @@
             <span class="iconfont m" data-action="praise" id="p">&#xe60e;<span class="sum">34</span></span>
             <span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">34</span></span>
         </div>
+        <ul class="reply">
+            <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span>华中科技大学</li>
+            <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span>华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学</li>
+            <li>hhehe</li>
+        </ul>
     </div>
 </div>
 <div class="loading">
     <button type="button" class="btn_loading" id="loading_two">加载更多</button>
 </div>
-<div>
-
+<div class="reply_input">
+    <textarea rows="1">121212</textarea>
+    <button>发送</button>
 </div>
 <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
 <script>

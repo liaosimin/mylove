@@ -222,6 +222,8 @@ class Community(UserBaseHandler):
             self.issue_thread()
         elif action == 'praise':
             self.praise()
+        elif action == "reply":
+            self.reply()
 
         return self.send_success()
 
@@ -237,6 +239,18 @@ class Community(UserBaseHandler):
         if self.session.query(models.UserPraiseThread).filter_by(uid=self.current_user.id, thread_id=id).first():
             return self.send_fail("重复点赞")
         self.session.add(models.UserPraiseThread(uid=self.current_user.id, thread_id=id))
+        self.session.commit()
+
+    @UserBaseHandler.check_arguments("t_id:int", "r_id:int", "data:str")
+    def reply(self):
+        thread_id = self.args["t_id"]
+        reply_id = self.args["r_id"]
+        text = self.args["data"]
+
+        args = dict(thread_id=thread_id, author_id=self.current_user.id, text=text)
+        if not reply_id:
+            args['parent_id'] = reply_id
+        self.session.add(models.ReplyThread(args))
         self.session.commit()
 
 

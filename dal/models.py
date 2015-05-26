@@ -152,8 +152,22 @@ class Thread(MapBase):
 
 class UserPraiseThread(MapBase):
     __tablename__ = "user_praise_thread"
+
     uid = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
     thread_id = Column(Integer, ForeignKey(Thread.id), primary_key=True, nullable=False)
+
+
+class ReplyThread(MapBase):
+    __tablename__ = "reply_thread"
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    thread_id = Column(Integer, ForeignKey(Thread.id), primary_key=True, nullable=False)
+    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    text = Column(String(512))
+
+    parent_id = Column(Integer, ForeignKey('reply_thread.id'))
+    # children = relationship("reply_thread")
+    parent = relationship("reply_thread", remote_side=[id], uselist=False)
 
 
 def init_db_data():
