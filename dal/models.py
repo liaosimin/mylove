@@ -167,7 +167,8 @@ class ReplyThread(MapBase):
 
     parent_id = Column(Integer, ForeignKey('reply_thread.id'))
     # children = relationship("reply_thread")
-    parent = relationship("reply_thread", remote_side=[id], uselist=False)
+    parent = relationship("ReplyThread", remote_side=[id], uselist=False)
+    author = relationship("User", uselist=False)
 
 
 def init_db_data():

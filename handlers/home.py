@@ -189,10 +189,19 @@ class Photo(UserBaseHandler):
 
 class Community(UserBaseHandler):
     @tornado.web.authenticated
-    @UserBaseHandler.check_arguments("page?:int")
+    @UserBaseHandler.check_arguments("action?:str")
     def get(self):
-        if 'page' not in self.args.keys():
+        if 'action' not in self.args.keys():
             return self.render("community.html")
+        action = self.args["action"]
+        if action == "thread":
+            self.get_thread()
+        elif action == "reply":
+            self.get_reply()
+
+
+    @UserBaseHandler.check_arguments("page:int")
+    def get_thread(self):
         page = self.args["page"]
         page_size = 20
         threads = self.session.query(models.Thread).order_by(desc(models.Thread.id)).\
@@ -212,6 +221,15 @@ class Community(UserBaseHandler):
                               'avatar_url': thread.author.avatar_url, 'nickname': thread.author.nickname,
                               'sex': thread.author.sex, 'time': self.timedelta(thread.create_datetime),
                               'intro': thread.intro, 'ug_name':ug_name})
+        return self.send_success(data=data_list)
+
+    @UserBaseHandler.check_arguments("thread_id:int")
+    def get_reply(self):
+        thread_id = self.args["thread_id"]
+        replys = self.session.query(models.ReplyThread).filter_by(thread_id=thread_id).all()
+        data_list = [{'author_name': x.author.nickname,
+                      'reply_name': '楼主' if not x.parent_id else x.parent.author.nickname,
+                      'text': x.text, 'code': x.author.code, 'id': x.id} for x in replys]
         return self.send_success(data=data_list)
 
     @tornado.web.authenticated
@@ -241,10 +259,10 @@ class Community(UserBaseHandler):
         self.session.add(models.UserPraiseThread(uid=self.current_user.id, thread_id=id))
         self.session.commit()
 
-    @UserBaseHandler.check_arguments("t_id:int", "r_id:int", "data:str")
+    @UserBaseHandler.check_arguments("tid:int", "rid:int", "data:str")
     def reply(self):
-        thread_id = self.args["t_id"]
-        reply_id = self.args["r_id"]
+        thread_id = self.args["tid"]
+        reply_id = self.args["rid"]
         text = self.args["data"]
 
         args = dict(thread_id=thread_id, author_id=self.current_user.id, text=text)

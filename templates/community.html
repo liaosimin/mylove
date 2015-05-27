@@ -96,7 +96,7 @@
             color: #1cb7f0;
             margin-right: 2px;
         }
-        .reply li span{
+        .reply li span:nth-of-type(1) {
             color: grey;
             margin-right: 2px;
         }
@@ -158,7 +158,7 @@
             <span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">34</span></span>
         </div>
         <ul class="reply">
-            <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span>华中科技大学</li>
+            <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span><span>华中科技大学</span></li>
             <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span>华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学</li>
             <li>hhehe</li>
         </ul>
@@ -168,7 +168,7 @@
     <button type="button" class="btn_loading" id="loading_two">加载更多</button>
 </div>
 <div class="reply_input">
-    <textarea rows="1">121212</textarea>
+    <textarea rows="1" placeholder="回复楼主">121212</textarea>
     <button>发送</button>
 </div>
 <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
@@ -198,10 +198,17 @@
         $('.btn_loading').on('click', function () {
             get_data(i);i++;
         });
+        $('.reply_input button').on('click', function () {
+            $.post('', {'action': 'reply', 'data': $('.reply_input textarea').val(), 'rid': $('.reply_input textarea').data('rid'), 'tid': $('.reply_input textarea').data('tid')}, function (res) {
+                if (res.success) {
+                    $('textarea').val('');
+                }
+            });
+        });
     });
 
     function get_data(page) {
-        $.get('/community?page=' + page, function (res) {
+        $.get('/community?page=' + page + '&action=thread', function (res) {
             if (res.success) {
                 append_items(res.data);
                 if(res.data.length<20){
@@ -234,7 +241,8 @@
             $('.wrapper').append(item);
 
             var select = '[data-id="' + data[i].id + '"]';
-            $(select).find('#p').on('click', function () {
+            var s = $(select);
+            s.find('#p').on('click', function () {
                         var action = $(this).data('action');
                         var id = $(this).parent().parent().data('id');
                         var t = $(this);
@@ -246,9 +254,45 @@
                                 t.children('.sum').text(sum);
                             }
                         });
-                    }
-            );
+                    });
+            s.find('#r').on('click', function(){
+                s.children('.reply').toggle();
+                $('.reply_input').toggle();
+                $('.reply_input textarea').attr('data-tid', s.data('id'));
+                $('.reply_input textarea').attr('data-rid', 0);
+                $('.reply_input textarea').attr('placeholder', '回复楼主：');
+                $('.reply_input textarea').val();
+                if(s.children('.reply').text().length>0)return;
+                get_reply(s.data('id'), s);
+            });
         }
+    }
+
+    function get_reply(thread_id, s){
+        $.get('/community?thread_id=' + thread_id + '&action=reply', function (res) {
+            if (res.success) {
+                var len = res.data.length;
+                for(var i=0;i<len;i++){
+                    var item = $('<li><a href="/profile/1">lsm</a><span>回复liaoshen:</span><span>华中科技大学</span></li>');
+                    item.attr('data-id', data[i].id);
+                    item.children('a').attr('href', '/profile/'+code);
+                    item.children('a').text(data[i].author_name);
+                    item.children(':nth-child(2)').text('回复'+data[i].reply_name+':');
+                    item.children(':nth-child(3)').text(data[i].text);
+                    item.on('click', function(){
+                        var t = $(this);
+                        var textarea = $('.reply_input textarea');
+                        textarea.val();
+                        textarea.attr('placeholder', '回复'+t.children('a').text()+':');
+                        textarea.attr('data-rid', t.data('id'));
+                    });
+                    s.children('.reply').append(item);
+                }
+            }
+            else {
+                alert('error');
+            }
+        })
     }
 </script>
 </body>
