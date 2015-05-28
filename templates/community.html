@@ -86,6 +86,7 @@
             list-style-type: none;
             padding-left: 0;
             margin-bottom: 0;
+            display: none;
         }
         .reply li{
             border-top: 1px solid #ddd;
@@ -105,6 +106,7 @@
             bottom: 0;
             width: 100%;
             background-color: white;
+            display: none;
         }
         .reply_input textarea{
             width: 80%;
@@ -168,7 +170,7 @@
     <button type="button" class="btn_loading" id="loading_two">加载更多</button>
 </div>
 <div class="reply_input">
-    <textarea rows="1" placeholder="回复楼主">121212</textarea>
+    <textarea rows="1" placeholder="回复楼主"></textarea>
     <button>发送</button>
 </div>
 <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
@@ -236,7 +238,8 @@
                     '</span><span><i class="iconfont ' + sex +
                     '</i></span></div></div></div><b class="text">' + data[i].intro + '</b><div class="praise">' +
                     '<span class="iconfont m" data-action="praise" id="p">&#xe60e;<span class="sum">' + data[i].praise_sum +
-                    '</span></span><span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">34</span></span></div></div>';
+                    '</span></span><span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">'+
+                    data[i].reply_sum +'</span></span></div><ul class="reply"></ul></div>';
 
             $('.wrapper').append(item);
 
@@ -255,15 +258,35 @@
                             }
                         });
                     });
+            var on_thread_id = 0;//记录评论被打开的thread_id，如果没有则为0
             s.find('#r').on('click', function(){
-                s.children('.reply').toggle();
-                $('.reply_input').toggle();
-                $('.reply_input textarea').attr('data-tid', s.data('id'));
-                $('.reply_input textarea').attr('data-rid', 0);
-                $('.reply_input textarea').attr('placeholder', '回复楼主：');
-                $('.reply_input textarea').val();
-                if(s.children('.reply').text().length>0)return;
-                get_reply(s.data('id'), s);
+                var item = $(this).parent().parent();
+                item.children('.reply').toggle();
+                if(on_thread_id == 0){
+                    on_thread_id = item.data('id');
+                    $('.reply_input').toggle();
+                    $('.reply_input textarea').attr('data-tid', item.data('id'));
+                    $('.reply_input textarea').attr('data-rid', 0);
+                    $('.reply_input textarea').attr('placeholder', '回复楼主：');
+                    $('.reply_input textarea').val();
+                    if(item.children('.reply').text().length>0)return;
+                    get_reply(item.data('id'), item);
+                }
+                else if(on_thread_id == item.data('id')){
+                    on_thread_id == 0;
+                    $('.reply_input').toggle();
+                }
+                else{
+                    var select = '[data-id="' + on_thread_id + '"]';
+                    $(select).children('.reply').toggle();
+                    on_thread_id = item.data('id');
+                    $('.reply_input textarea').attr('data-tid', item.data('id'));
+                    $('.reply_input textarea').attr('data-rid', 0);
+                    $('.reply_input textarea').attr('placeholder', '回复楼主：');
+                    $('.reply_input textarea').val();
+                    if(item.children('.reply').text().length>0)return;
+                    get_reply(item.data('id'), item);
+                }
             });
         }
     }
@@ -272,10 +295,11 @@
         $.get('/community?thread_id=' + thread_id + '&action=reply', function (res) {
             if (res.success) {
                 var len = res.data.length;
+                var data = res.data;
                 for(var i=0;i<len;i++){
                     var item = $('<li><a href="/profile/1">lsm</a><span>回复liaoshen:</span><span>华中科技大学</span></li>');
                     item.attr('data-id', data[i].id);
-                    item.children('a').attr('href', '/profile/'+code);
+                    item.children('a').attr('href', '/profile/'+data[i].code);
                     item.children('a').text(data[i].author_name);
                     item.children(':nth-child(2)').text('回复'+data[i].reply_name+':');
                     item.children(':nth-child(3)').text(data[i].text);

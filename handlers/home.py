@@ -199,7 +199,6 @@ class Community(UserBaseHandler):
         elif action == "reply":
             self.get_reply()
 
-
     @UserBaseHandler.check_arguments("page:int")
     def get_thread(self):
         page = self.args["page"]
@@ -216,8 +215,9 @@ class Community(UserBaseHandler):
                 grade_name = thread.author.grade_name
             ug_name = university_name+' '+grade_name
             praise_sum = self.session.query(models.UserPraiseThread).filter_by(thread_id=thread.id).count()
+            reply_sum = self.session.query(models.ReplyThread).filter_by(thread_id=thread.id).count()
             data_list.append({'id': thread.id, 'uid': thread.author.id, 'code': thread.author.code,
-                              'praise_sum': praise_sum,
+                              'praise_sum': praise_sum, 'reply_sum': reply_sum,
                               'avatar_url': thread.author.avatar_url, 'nickname': thread.author.nickname,
                               'sex': thread.author.sex, 'time': self.timedelta(thread.create_datetime),
                               'intro': thread.intro, 'ug_name':ug_name})
@@ -266,9 +266,9 @@ class Community(UserBaseHandler):
         text = self.args["data"]
 
         args = dict(thread_id=thread_id, author_id=self.current_user.id, text=text)
-        if not reply_id:
+        if reply_id:
             args['parent_id'] = reply_id
-        self.session.add(models.ReplyThread(args))
+        self.session.add(models.ReplyThread(**args))
         self.session.commit()
 
 
