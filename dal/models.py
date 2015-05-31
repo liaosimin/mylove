@@ -27,6 +27,7 @@ class User(MapBase, _CommonApi):
 
     id = Column(Integer, primary_key=True, nullable=False)
     create_datetime = Column(DateTime, default=func.now())
+    code = Column(Integer, unique=True, nullable=False)
 
     # 账户访问信息 (phone/email, password)/(wx_unionid)用来登录
     phone = Column(String(32), unique=True, default=None)
@@ -35,7 +36,7 @@ class User(MapBase, _CommonApi):
     wx_unionid = Column(String(64), unique=True)
 
     # 基本账户信息
-    avatar_url = Column(String(512))  # 头像url
+    avatar_url = Column(String(512), default='default')  # 头像url
     nickname = Column(String(20))  # 昵称
     realname = Column(String(10))  # 真实姓名
     sex = Column(TINYINT, default=2)  # 性别，男1, 女2, 其他0
@@ -112,12 +113,63 @@ class Photo(MapBase):
     __tablename__ = "photo"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
     img_url = Column(String(512))
     intro = Column(String(128))
     create_datetime = Column(DateTime, default=func.now())
-    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
 
     author = relationship("User", uselist=False)
+
+
+class UserPraisePhoto(MapBase):
+    __tablename__ = "user_praise_photo"
+    uid = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+    photo_id = Column(Integer, ForeignKey(Photo.id), primary_key=True, nullable=False)
+
+
+class UserLoveUser(MapBase):
+    __tablename__ = "user_love_user"
+    uid1 = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+    uid2 = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+
+
+class Follow(MapBase):
+    __tablename__ = "follow"
+    uid1 = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+    uid2 = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+
+
+class Thread(MapBase):
+    __tablename__ = "thread"
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    intro = Column(String(512))
+    create_datetime = Column(DateTime, default=func.now())
+
+    author = relationship("User", uselist=False)
+
+
+class UserPraiseThread(MapBase):
+    __tablename__ = "user_praise_thread"
+
+    uid = Column(Integer, ForeignKey(User.id), primary_key=True, nullable=False)
+    thread_id = Column(Integer, ForeignKey(Thread.id), primary_key=True, nullable=False)
+
+
+class ReplyThread(MapBase):
+    __tablename__ = "reply_thread"
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    thread_id = Column(Integer, ForeignKey(Thread.id), primary_key=True, nullable=False)
+    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    text = Column(String(512))
+
+    parent_id = Column(Integer, ForeignKey('reply_thread.id'))
+    # children = relationship("reply_thread")
+    parent = relationship("ReplyThread", remote_side=[id], uselist=False)
+    author = relationship("User", uselist=False)
+
 
 def init_db_data():
     MapBase.metadata.create_all()

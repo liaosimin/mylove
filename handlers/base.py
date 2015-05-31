@@ -64,10 +64,13 @@ class UserBaseHandler(GlobalBaseHandler):
         return u
 
 
-    def register_with_email(self, email, password, sex):
+    def register_with_email(self, email, password, sex, univ_id):
+        code = int((datetime.datetime.today()-datetime.datetime(2015, 4, 25, 22, 5, 2)).total_seconds()*100)
         user = models.User(email=email,
                            password=password,
-                           sex=sex)
+                           sex=sex,
+                           university_id=univ_id,
+                           code=code)
 
         self.session.add(user)
         self.session.commit()
