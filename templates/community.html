@@ -126,45 +126,79 @@
             font-size: 1.5em;
             border: 0;
         }
+        .tap{
+            display: inline-block;
+            margin-left: 7.8em;
+        }
+        .tap div{
+            float: left;
+            width: 4em;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .tb_btn{
+            font-size: 1.25em;
+            padding: 0;
+            width: 99%;
+            height: 1.7em;
+            /*line-height: 2.9rem;*/
+            background-color: rgba(55, 55, 55, 0);
+            outline: none;
+            border: 1px solid white;
+            color: white;
+            margin: 0;
+        }
+        .down{
+            background-color:white;
+            color: #1cb7f0;
+        }
     </style>
 </head>
 <body>
 <header class="title_box">
     <a href="javascript:history.back(-1)"><span class="iconfont back">&#xe60c;</span></a>
+    <div class="tap">
+            <div><button class="tb_btn down" id="tab1">最新</button></div>
+            <div><button class="tb_btn" id="tab2">同校</button></div>
+            <div><button class="tb_btn" id="tab3">推荐</button></div>
+        </div>
     <span class="iconfont add" id="add">&#xe608;</span>
     <span class="iconfont add" id="submit">&#xe610;</span>
 </header>
 
 <div class="wrapper">
     <textarea autofocus placeholder="请输入信息"></textarea>
+    <div id="list1">
+        <div class="item" data-id="1" data-uid="1">
+            <div class="item_head">
+                <a href="#"><img src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667706084.jpg" alt="hello"
+                                 class="avatar"/></a>
 
-    <div class="item" data-id="1" data-uid="1">
-        <div class="item_head">
-            <a href="#"><img src="http://img1.2345.com/duoteimg/qqTxImg/2013/04/22/13667706084.jpg" alt="hello"
-                             class="avatar"/></a>
-
-            <div class="profile2">
-                <div>华中科技大学<span class="creat_time">11min</span></div>
-                <div>
-                    <span class="nickname">lilei</span>
-                    <span><i class="iconfont woman">&#xe60a</i></span>
+                <div class="profile2">
+                    <div>华中科技大学<span class="creat_time">11min</span></div>
+                    <div>
+                        <span class="nickname">lilei</span>
+                        <span><i class="iconfont woman">&#xe60a</i></span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <b class="text">
-            hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦
-        </b>
+            <b class="text">
+                hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦hello大家好，我是周杰伦
+            </b>
 
-        <div class="praise">
-            <span class="iconfont m" data-action="praise" id="p">&#xe60e;<span class="sum">34</span></span>
-            <span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">34</span></span>
+            <div class="praise">
+                <span class="iconfont m" data-action="praise" id="p">&#xe60e;<span class="sum">34</span></span>
+                <span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">34</span></span>
+            </div>
+            <ul class="reply">
+                <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span><span>华中科技大学</span></li>
+                <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span>华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学</li>
+                <li>hhehe</li>
+            </ul>
         </div>
-        <ul class="reply">
-            <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span><span>华中科技大学</span></li>
-            <li><a href="/profile/1">lsm</a><span>回复liaoshen:</span>华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学华中科技大学</li>
-            <li>hhehe</li>
-        </ul>
     </div>
+    <div id="list2" style="display: none"></div>
+    <div id="list3" style="display: none"></div>
 </div>
 <div class="loading">
     <button type="button" class="btn_loading" id="loading_two">加载更多</button>
@@ -176,9 +210,10 @@
 <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
 <script>
     Zepto(function ($) {
-        var i = 0;
-        get_data(i);
-        i++;
+        var tab = 1;
+        var page = [0,0,0];
+        get_data(page[0],1);
+        page[0]++;
         $('#add').on('click', function () {
             $('textarea').toggle();
             $(this).toggle();
@@ -198,7 +233,7 @@
             });
         });
         $('.btn_loading').on('click', function () {
-            get_data(i);i++;
+            get_data(page[tab-1],tab);page[tab-1]++;
         });
         $('.reply_input button').on('click', function () {
             $.post('', {'action': 'reply', 'data': $('.reply_input textarea').val(), 'rid': $('.reply_input textarea').data('rid'), 'tid': $('.reply_input textarea').data('tid')}, function (res) {
@@ -207,12 +242,31 @@
                 }
             });
         });
+
+
+        $('.tb_btn').on('click', function () {
+            $('#tab'+tab).removeClass('down');
+            var id = $(this).attr('id').substr(3);
+            if(id!=tab){
+                $('#list'+id).toggle();
+                $('#list'+tab).toggle();
+            }
+            tab = id;
+            $('#tab'+tab).addClass('down');
+
+            if($('#list'+tab).text().length<=0)
+            {
+                get_data(page[tab-1],tab);
+                page[tab-1]++;
+            }
+
+        });
     });
 
-    function get_data(page) {
-        $.get('/community?page=' + page + '&action=thread', function (res) {
+    function get_data(page, tab) {
+        $.get('/community?page=' + page + '&action=thread'+'&tab='+tab, function (res) {
             if (res.success) {
-                append_items(res.data);
+                append_items(res.data, tab);
                 if(res.data.length<20){
                     $('.btn_loading').text('没有更多了！');
                     $('.btn_loading').attr('disabled', false);
@@ -224,7 +278,7 @@
         })
     }
 
-    function append_items(data) {
+    function append_items(data, tab) {
         var len = data.length;
         for (var i = 0; i < len; i++) {
             var avatar_url = 'http://7xit5j.com1.z0.glb.clouddn.com/' + data[i].avatar_url;
@@ -241,10 +295,10 @@
                     '</span></span><span class="iconfont m" data-action="reply" id="r">&#xe60f;<span class="sum">'+
                     data[i].reply_sum +'</span></span></div><ul class="reply"></ul></div>';
 
-            $('.wrapper').append(item);
+            $('#list'+tab).append(item);
 
             var select = '[data-id="' + data[i].id + '"]';
-            var s = $(select);
+            var s = $('#list'+tab).children(select);
             s.find('#p').on('click', function () {
                         var action = $(this).data('action');
                         var id = $(this).parent().parent().data('id');
