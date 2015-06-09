@@ -74,7 +74,21 @@ class Access(UserBaseHandler):
 class Home(UserBaseHandler):
     @tornado.web.authenticated
     def get(self):
-        return self.render("home.html")
+        return self.render("home.html", r_list=self.user_recommand())
+
+    def user_recommand(self):
+        prefer = {}
+        follows = self.session.query(models.Follow).all()
+        for follow in follows:
+            prefer.setdefault(follow.uid1, {})
+            prefer[follow.uid1].setdefault(follow.uid2, 0)
+            prefer[follow.uid1][follow.uid2] += 1
+
+        import libs.recommend as recommend
+        recommend_list = recommend.top_k(prefer, self.current_user.id, 3, recommend.sim_tanimoto)
+        l = [x[1] for x in recommend_list]
+        codes = self.session.query(models.User.code, models.User.avatar_url).filter(models.User.id.in_(l)).all()
+        return codes
 
 class SetProfile(UserBaseHandler):
     @tornado.web.authenticated
@@ -90,7 +104,9 @@ class SetProfile(UserBaseHandler):
 
         if action == "edit_avatar":
             return self.send_qiniu_token(BUCKET_AVATAR, self.current_user.id)
-        if action == "edit_realname":
+        if action == "edit_nickname":
+            self.session.query(models.User).filter_by(id=self.current_user.id).update({models.User.nickname: data})
+        elif action == "edit_realname":
             self.session.query(models.User).filter_by(id=self.current_user.id).update({models.User.realname: data})
         elif action == "edit_wx_username":
             self.session.query(models.User).filter_by(id=self.current_user.id).update({models.User.wx_username: data})
@@ -105,7 +121,7 @@ class SetProfile(UserBaseHandler):
         elif action == "edit_intro":
             self.session.query(models.User).filter_by(id=self.current_user.id).update({models.User.intro: data})
         else:
-            return self.send_fail("you are wrong")
+            return self.send_error(304)
         self.session.commit()
         return self.send_success()
 

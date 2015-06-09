@@ -37,7 +37,22 @@
         }
 
         .box {
-            margin-top: 100px;
+            margin-top: 50px;
+        }
+        .avatar {
+            width: 4em;
+            float: left;
+            margin-left: 5px;
+        }
+        .recommend{
+            height: 6em;
+            margin-top: 1em;
+            padding: 1em;
+            background-color: white;
+        }
+        .recommend span{
+            display: block;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -62,15 +77,15 @@
                             <p></p>
                         </div>
                     </li>
-                    <li class="ui-border-t">
-                        <div class="ui-list-thumb  ui-avatar-s">
-                            <span style="background-image:url(http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0)"></span>
-                        </div>
-                        <div class="ui-list-info">
-                            <h4>风清扬</h4>
-                            <p>约吗</p>
-                        </div>
-                    </li>
+                    <!--<li class="ui-border-t">-->
+                        <!--<div class="ui-list-thumb  ui-avatar-s">-->
+                            <!--<span style="background-image:url(http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqHqw9gU7QzTv5zqubZAT1oIBjleDnSls2hl0qYicWFEzZnjKicqNl9MFhXv7WM0iaicJ9CyYqUsaHxzQ/0)"></span>-->
+                        <!--</div>-->
+                        <!--<div class="ui-list-info">-->
+                            <!--<h4>风清扬</h4>-->
+                            <!--<p>hello</p>-->
+                        <!--</div>-->
+                    <!--</li>-->
                 </ul>
             </li>
             <li>
@@ -90,23 +105,10 @@
                         </div>
                         <div class="ui-list-info ui-border-t" onclick="location.href='{{reverse_url("Community")}}'">
                             <h4>社区</h4>
-                            <p>晒出你的情感经历吧</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="ui-list-thumb ui-avatar-s">
-                            <span style="background-image:url(http://b.zol-img.com.cn/mobile_soft/ms_1/180x180/so7VveLM2r2Bo.jpg)"></span>
-                        </div>
-                        <div class="ui-list-info ui-border-t">
-                            <h4>问一问</h4>
-                            <p>大家尽情抛砖</p>
+                            <p>情感分享</p>
                         </div>
                     </li>
                 </ul>
-                <!--<div class="ui-loading-wrap">-->
-                <!--<p>加载中</p>-->
-                <!--<i class="ui-loading"></i>-->
-                <!--</div>-->
             </li>
 
             <li>
@@ -133,6 +135,13 @@
                             <p>我的相册</p>
                         </li>
                     </ul>
+                </div>
+                <div class="recommend">
+                    <span>好友推荐:</span>
+                    {% for item in r_list%}
+                    <a href="/profile/{{item[0]}}"><img src="http://7xit5j.com1.z0.glb.clouddn.com/{{item[1]}}" alt="hello"
+                                 class="avatar"/></a>
+                    {% end %}
                 </div>
             </li>
         </ul>

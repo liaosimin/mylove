@@ -93,7 +93,7 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
         self.write_message(json.dumps(msg_send))
 
     def on_close(self):
-        print("WebSocket closed")
+        print("WebSocket closed :",self.current_user.id)
         state = Websocket.waiters[self.current_user.id].state
         if state == 0:
             if self.current_user.sex == 1:
@@ -117,9 +117,9 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
         Websocket.waiters[self.current_user.id] = 0
         Websocket.waiters[uid].state = 0
 
-        if Websocket.waiters[uid].sex == 1:
+        if Websocket.waiters[uid].current_user.sex == 1:
             Websocket.waiter_male_ids.add(uid)
-        elif Websocket.waiters[uid].sex == 2:
+        elif Websocket.waiters[uid].current_user.sex == 2:
             Websocket.waiter_female_ids.add(uid)
         else:
             pass

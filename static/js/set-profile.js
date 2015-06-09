@@ -22,6 +22,7 @@ function infoEdit(evt){
     evt.on('click',function(){
         var action = evt.data("action");
         var data;
+        var s = $(this);
         switch(action)
         {
             case 'edit_nickname':
@@ -60,8 +61,11 @@ function infoEdit(evt){
 
         var args={'action': action, 'data': data};
         $.post('/setprofile', args, function(res){
-          // process response
+            s.parents('.info-edit').hide();
             if (res.success) {
+                if(action == 'edit_birthday'){
+                    data=eval('('+data+')').year+'-'+eval('('+data+')').month;
+                }
                 evt.parents('li').find('a.editInfo').text(data).css({'color': '#a8a8a8'});
                 $.tips({content: '修改成功!', stayTime: 3000, type: "info"});
             }
