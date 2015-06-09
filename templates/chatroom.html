@@ -8,30 +8,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <title>聊天室</title>
     <link rel="stylesheet" href="{{static_url('css/chatroom.css')}}"/>
+    <link rel="stylesheet" href="{{static_url('css/iconfont.css')}}"/>
 </head>
 <body>
-<header class="title-box2">
-    <a href="{{reverse_url('Home')}}" class="return-btn"></a>
-    <span class="title">个人信息</span>
+<header class="title_box">
+    <a href="javascript:history.back(-1)"><span class="iconfont back">&#xe60c;</span></a>
+    <span class="title">聊天室</span>
 </header>
 <div class="chat_group">
-<div style="margin: auto"><span style="color: #ffffff;background-color: #00D681;border-radius: 2px">hello</span></div>
+    <div class="chat_content_group "><p class="chat_nick">我</p><p class="chat_content self">hello大家好</p></div>
+    <div class="chat_content_group_self "><p class="chat_nick">他</p><p class="chat_content ">我是liaosimin</p></div>
 </div>
-
-<footer>
-    <input type="button" value="Change" onclick="changePeople()"/>
-    <!--<input type="text" name="message" value="Hello World!"/>-->
-    <textarea></textarea>
-    <input type="button" value="Send" onclick="send()"/>
-</footer>
-<!--<form onsubmit="return false;">-->
-    <!--<input type="text" name="message" value="Hello World!"/>-->
-    <!--<input type="button" value="Send" onclick="send(this.form.message.value)"/>-->
-    <!--<input type="button" value="Change" onclick="changePeople()"/>-->
-
-    <!--<textarea id="responseText" style="width:100%;height:300px;"></textarea>-->
-<!--</form>-->
-
+<div class="reply_input">
+    <button onclick="changePeople()">换人</button>
+    <textarea rows="1" placeholder="回复"></textarea>
+    <button onclick="send()">发送</button>
+</div>
 <script src="http://i.gtimg.cn/vipstyle/frozenjs/lib/zepto.min.js?_bid=304"></script>
 <script src="{{static_url('js/chatroom.js')}}"></script>
 </body>

@@ -199,12 +199,34 @@ class Community(UserBaseHandler):
         elif action == "reply":
             self.get_reply()
 
-    @UserBaseHandler.check_arguments("page:int")
+    @UserBaseHandler.check_arguments("page:int", "tab:int")
     def get_thread(self):
         page = self.args["page"]
+        tab = self.args["tab"]
         page_size = 20
-        threads = self.session.query(models.Thread).order_by(desc(models.Thread.id)).\
-            offset(page*page_size).limit(page_size).all()
+        query = self.session.query(models.Thread)
+
+        if tab == 1:  #最新
+             threads = query.order_by(desc(models.Thread.id)).offset(page*page_size).limit(page_size).all()
+        elif tab == 2:  #同校
+            threads = query.join(models.User).filter(models.User.university_id == self.current_user.university_id).\
+                order_by(desc(models.Thread.id)).offset(page*page_size).limit(page_size).all()
+        elif tab == 3:  #推荐
+            prefer = {}
+            replys = self.session.query(models.ReplyThread).all()
+            for reply in replys:
+                prefer.setdefault(reply.author_id, {})
+                prefer[reply.author_id].setdefault(reply.thread_id, 0)
+                prefer[reply.author_id][reply.thread_id] += 1
+
+            import libs.recommend as recommend
+            recommend_list = recommend.getRecommend(prefer, self.current_user.id)
+            recommend_list = recommend_list[page*page_size:(page+1)*page_size]
+            recommend_tid = [x[1] for x in recommend_list]
+            threads = query.filter(models.Thread.id.in_(recommend_tid)).all()
+        else:
+            self.send_error(304)
+
         data_list = []
         for thread in threads:
             university_name = ''

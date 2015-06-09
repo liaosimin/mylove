@@ -30,7 +30,8 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
         """
         msg_receive = json.loads(message)
         msg_send = {'type': 0, 'nickname': self.current_user.nickname, 'msg': msg_receive['msg']}
-        if msg_receive['type'] == 0:
+        print('info: ', msg_receive)
+        if msg_receive['type'] == 0:  # chat
             if Websocket.waiters[self.current_user.id].state == 1:
                 Websocket.waiters[Websocket.link_person[self.current_user.id]].write_message(json.dumps(msg_send))
                 return
@@ -44,7 +45,7 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
                 msg_send['msg'] = '请选择一个陌生人或者加入房间'
 
         elif msg_receive['type'] == 1:  # change people
-            if self.current_user.id in Websocket.link_person.keys():
+            if self.current_user.id in Websocket.link_person.keys():  # 如果正在聊天
                 id_tmp = Websocket.link_person[self.current_user.id]
                 del Websocket.link_person[self.current_user.id]
                 del Websocket.link_person[id_tmp]
@@ -56,7 +57,7 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
                 elif self.current_user.sex == 2:
                     Websocket.waiter_female_ids.add(self.current_user.id)
                     Websocket.waiter_male_ids.add(id_tmp)
-            if self.current_user.sex == 1:
+            if self.current_user.sex == 1:  # 如果空闲
                 if len(Websocket.waiter_female_ids) > 0:  # 当set只有1个元素时，总会随机到同一个人
                     female_id = random.sample(Websocket.waiter_female_ids, 1)[0]  # todo 现在是随机分配，以后要加入推荐算法
                     Websocket.link_person[self.current_user.id] = female_id
@@ -88,6 +89,7 @@ class Websocket(tornado.websocket.WebSocketHandler, GlobalBaseHandler):
                     msg_send['msg'] = "继续等待"
             else:
                 pass
+        print('info: id=%d ' % self.current_user.id, msg_send)
         self.write_message(json.dumps(msg_send))
 
     def on_close(self):
